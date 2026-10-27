@@ -31,7 +31,6 @@
 
     <!-- Top Bar -->
     <header class="top-bar">
-        <!-- Logo em vez do menu hamburguer -->
         <div class="logo-container" id="logo-toggle">
             <img src="Asset 1.svg" alt="B Groove Logo">
         </div>
@@ -39,34 +38,74 @@
         <a href="about.html" class="about-link">ABOUT</a>
     </header>
 
-    <!-- Side Callouts -->
-    <div class="side-callout left">call a friend.</div>
-    <div class="side-callout right">call a friend.</div>
+    <!-- Vídeo de fundo aleatório (Menu Inicial) -->
+    <div class="menu-bg-video" id="menu-bg-video"></div>
 
-    <!-- Slider Fullscreen -->
-    <div class="fullscreen-slider" id="slider-container">
-        
-        <button class="nav-arrow left-arrow" id="prev-btn">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </button>
-
-        <div class="slides-wrapper" id="slides-wrapper"></div>
-
-        <button class="nav-arrow right-arrow" id="next-btn">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-        </button>
-    </div>
-
-    <!-- Submenu de Diretores -->
+    <!-- Submenu de Diretores (Menu Inicial) -->
     <nav class="directors-submenu" id="directors-submenu">
         <a href="#" class="director-link" data-director="andre-chitas">André Chitas</a>
         <a href="#" class="director-link" data-director="goncalo-xz">Gonçalo Xz</a>
         <a href="#" class="director-link" data-director="ines-monteiro">Inês Monteiro</a>
     </nav>
+
+    <!-- Visão do Diretor (Container com Scroll Vertical) -->
+    <div class="director-view" id="director-view">
+        
+        <!-- Secção 1: Vídeo em Ecrã Inteiro -->
+        <div class="video-section">
+            
+            <div class="main-iframe-wrapper" id="main-iframe-wrapper"></div>
+            
+            <!-- Callouts fixos na secção do vídeo -->
+            <div class="side-callout left">call a friend.</div>
+            <div class="side-callout right">call a friend.</div>
+
+            <!-- Setas de Navegação do Vídeo -->
+            <button class="nav-arrow left-arrow" id="prev-btn">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            
+            <button class="nav-arrow right-arrow" id="next-btn">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+
+            <div class="video-info-center">
+                <div class="dir-name" id="main-dir-name">Dir.</div>
+                <div class="brand-name" id="main-brand-name">Marca</div>
+            </div>
+
+            <!-- Botão para baixo (Sem animação) -->
+            <div class="down-chevron">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#bb0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Secção 2: Carrossel -->
+        <div class="carousel-section">
+            
+            <!-- Setas de Navegação do Carrossel de Baixo -->
+            <button class="carousel-nav-arrow left" id="carousel-prev-btn">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+
+            <div class="carousel-track" id="director-carousel-track"></div>
+
+            <button class="carousel-nav-arrow right" id="carousel-next-btn">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+
+    </div>
 
     <!-- Footer -->
     <footer class="site-footer">

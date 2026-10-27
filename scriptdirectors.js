@@ -1,26 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // NAV
+    // ==========================================
+    // NAVEGAÇÃO
+    // ==========================================
     const logoToggle = document.getElementById("logo-toggle");
     const navOverlay = document.getElementById("nav-overlay");
     const navClose = document.getElementById("nav-close");
 
-    logoToggle.addEventListener("click", () => {
-        navOverlay.classList.toggle("is-open");
-    });
+    logoToggle.addEventListener("click", () => navOverlay.classList.toggle("is-open"));
+    navClose.addEventListener("click", () => navOverlay.classList.remove("is-open"));
 
-    navClose.addEventListener("click", () => {
-        navOverlay.classList.remove("is-open");
-    });
-
+    // ==========================================
     // MAPEAMENTO DOS DIRETORES
+    // ==========================================
     const directorNames = {
         "andre-chitas": "André Chitas",
         "goncalo-xz": "Gonçalo Xz",
         "ines-monteiro": "Inês Monteiro"
     };
 
+    // ==========================================
     // DADOS DOS VÍDEOS
+    // ==========================================
     const videoData = [
         { id: "1226708222", brand: "McDonald's", title: "Reviews", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-01.webp" },
         { id: "1228562721", brand: "BIS", title: "Rh", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-02.webp" },
@@ -53,82 +54,75 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
     ];
 
+    // ==========================================
     // ELEMENTOS
+    // ==========================================
     const submenu = document.getElementById("directors-submenu");
-    const sliderContainer = document.getElementById("slider-container");
-    const slidesWrapper = document.getElementById("slides-wrapper");
+    const menuBgVideo = document.getElementById("menu-bg-video");
+    
+    const directorView = document.getElementById("director-view");
+    const mainIframeWrapper = document.getElementById("main-iframe-wrapper");
+    const mainDirName = document.getElementById("main-dir-name");
+    const mainBrandName = document.getElementById("main-brand-name");
+    
+    const carouselTrack = document.getElementById("director-carousel-track");
+    const directorLinks = document.querySelectorAll(".director-link");
+    
+    // Setas do vídeo principal
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
-    const directorLinks = document.querySelectorAll(".director-link");
+    
+    // Setas do carrossel
+    const carouselPrevBtn = document.getElementById("carousel-prev-btn");
+    const carouselNextBtn = document.getElementById("carousel-next-btn");
 
     let currentDirectorVideos = [];
-    let currentSlideIndex = 0;
+    let carouselItems = [];
     let activeIframe = null;
+    let carouselAnimId = null;
+    let currentVideoIndex = 0;
 
     // ==========================================
-    // INICIAR SLIDER COM FILTRO DE DIRETOR
+    // VÍDEO DE FUNDO ALEATÓRIO (MENU)
     // ==========================================
-    function startSliderForDirector(directorId) {
+    function playRandomMenuBackground() {
+        const randomVideo = videoData[Math.floor(Math.random() * videoData.length)];
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://player.vimeo.com/video/${randomVideo.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+        menuBgVideo.appendChild(iframe);
+    }
+    playRandomMenuBackground();
+
+    // ==========================================
+    // INICIAR VISÃO DO DIRETOR
+    // ==========================================
+    function startDirectorView(directorId) {
         currentDirectorVideos = videoData.filter(v => v.director === directorId);
-        currentSlideIndex = 0;
-
         if (currentDirectorVideos.length === 0) return;
 
-        slidesWrapper.innerHTML = "";
-        
-        currentDirectorVideos.forEach((video, index) => {
-            const slide = document.createElement("div");
-            slide.classList.add("slide");
-            if (index === 0) slide.classList.add("active");
+        carouselTrack.innerHTML = "";
+        carouselItems = [];
+        if (activeIframe) activeIframe.remove();
 
+        currentDirectorVideos.forEach((video, index) => {
+            const item = document.createElement("div");
+            item.classList.add("carousel-item");
+            
             const img = document.createElement("img");
             img.src = video.Thumb || `https://vumbnail.com/${video.id}.jpg`;
-            img.classList.add("slide-media");
-            slide.appendChild(img);
-
-            const iframeWrapper = document.createElement("div");
-            iframeWrapper.classList.add("iframe-wrapper");
-            iframeWrapper.style.position = "absolute";
-            iframeWrapper.style.inset = "0";
-            iframeWrapper.style.zIndex = "2";
-            iframeWrapper.style.pointerEvents = "none";
-            slide.appendChild(iframeWrapper);
-
-            const info = document.createElement("div");
-            info.classList.add("slide-info");
+            img.classList.add("poster-preview");
+            item.appendChild(img);
             
-            const dirName = directorNames[directorId] || directorId;
-            const projectName = video.title ? `${video.brand} - ${video.title}` : video.brand;
-            
-            info.innerHTML = `
-                <div class="dir-name">Dir.<br>${dirName}</div>
-                <div class="brand-name">${projectName}</div>
-            `;
-            slide.appendChild(info);
+            item.addEventListener("click", () => {
+                updateMainVideo(index);
+                directorView.scrollTo({ top: 0, behavior: 'smooth' });
+            });
 
-            slidesWrapper.appendChild(slide);
+            carouselTrack.appendChild(item);
+            carouselItems.push(item);
         });
-
-        function loadActiveVideo() {
-            const slides = document.querySelectorAll(".slide");
-            
-            if (activeIframe) {
-                activeIframe.remove();
-                activeIframe = null;
-            }
-
-            const activeSlide = slides[currentSlideIndex];
-            const iframeWrapper = activeSlide.querySelector(".iframe-wrapper");
-            const videoId = currentDirectorVideos[currentSlideIndex].id;
-
-            const iframe = document.createElement("iframe");
-            iframe.src = `https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
-            iframe.setAttribute("frameborder", "0");
-            iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
-            
-            iframeWrapper.appendChild(iframe);
-            activeIframe = iframe;
-        }
 
         if (currentDirectorVideos.length > 1) {
             prevBtn.classList.remove("hidden");
@@ -138,56 +132,174 @@ document.addEventListener("DOMContentLoaded", () => {
             nextBtn.classList.add("hidden");
         }
 
-        gsap.to(submenu, {
+        gsap.to([submenu, menuBgVideo], {
             opacity: 0,
             duration: 0.5,
             onComplete: () => {
                 submenu.style.display = "none";
-                sliderContainer.classList.add("active");
-                loadActiveVideo();
+                menuBgVideo.style.display = "none";
+                menuBgVideo.innerHTML = "";
+                
+                directorView.classList.add("active");
+                directorView.scrollTop = 0;
+                
+                initCarousel();
+                updateMainVideo(0);
             }
         });
     }
 
     // ==========================================
-    // NAVEGAÇÃO DO SLIDER
+    // ATUALIZAR VÍDEO PRINCIPAL
     // ==========================================
-    function goToSlide(index) {
-        const slides = document.querySelectorAll(".slide");
-        if (index < 0) index = currentDirectorVideos.length - 1;
-        if (index >= currentDirectorVideos.length) index = 0;
+    function updateMainVideo(index) {
+        if (index < 0 || index >= currentDirectorVideos.length) return;
+        
+        currentVideoIndex = index; 
 
-        slides[currentSlideIndex].classList.remove("active");
-        slides[index].classList.add("active");
+        const video = currentDirectorVideos[index];
+        const dirName = directorNames[video.director] || video.director;
+        const projectName = video.title ? `${video.brand} - ${video.title}` : video.brand;
+        
+        mainDirName.innerHTML = `Dir.<br>${dirName}`;
+        mainBrandName.innerText = projectName;
 
-        currentSlideIndex = index;
-
-        if (activeIframe) {
-            activeIframe.remove();
-            activeIframe = null;
-        }
-
-        const activeSlide = slides[currentSlideIndex];
-        const iframeWrapper = activeSlide.querySelector(".iframe-wrapper");
-        const videoId = currentDirectorVideos[currentSlideIndex].id;
-
+        if (activeIframe) activeIframe.remove();
+        
         const iframe = document.createElement("iframe");
-        iframe.src = `https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
+        iframe.src = `https://player.vimeo.com/video/${video.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
         
-        iframeWrapper.appendChild(iframe);
+        mainIframeWrapper.appendChild(iframe);
         activeIframe = iframe;
     }
 
-    prevBtn.addEventListener("click", () => goToSlide(currentSlideIndex - 1));
-    nextBtn.addEventListener("click", () => goToSlide(currentSlideIndex + 1));
+    // ==========================================
+    // CONTROLO DAS SETAS DO VÍDEO E TECLADO
+    // ==========================================
+    prevBtn.addEventListener("click", () => {
+        let newIndex = currentVideoIndex - 1;
+        if (newIndex < 0) newIndex = currentDirectorVideos.length - 1;
+        
+        updateMainVideo(newIndex);
+        snapCarouselTo(newIndex);
+    });
+
+    nextBtn.addEventListener("click", () => {
+        let newIndex = currentVideoIndex + 1;
+        if (newIndex >= currentDirectorVideos.length) newIndex = 0;
+        
+        updateMainVideo(newIndex);
+        snapCarouselTo(newIndex);
+    });
 
     window.addEventListener("keydown", (e) => {
-        if (!sliderContainer.classList.contains("active")) return;
+        if (!directorView.classList.contains("active")) return;
+        if (directorView.scrollTop > window.innerHeight / 2) return; 
+        
         if (e.key === "ArrowLeft") prevBtn.click();
         if (e.key === "ArrowRight") nextBtn.click();
     });
+
+    // ==========================================
+    // LÓGICA DO CARROSSEL INFINITO
+    // ==========================================
+    let carouselCurrentScroll = 0;
+    let carouselTargetScroll = 0;
+
+    function getCarouselStep() {
+        return window.innerWidth * 0.30; 
+    }
+
+    function snapCarouselTo(index) {
+        const step = getCarouselStep();
+        const currentBase = Math.round(carouselCurrentScroll / (currentDirectorVideos.length * step)) * (currentDirectorVideos.length * step);
+        carouselTargetScroll = currentBase + (index * step);
+    }
+
+    function initCarousel() {
+        if (carouselAnimId) cancelAnimationFrame(carouselAnimId);
+        
+        carouselCurrentScroll = 0;
+        carouselTargetScroll = 0;
+        
+        const step = getCarouselStep();
+        const n = carouselItems.length;
+        const T = n * step;
+
+        function render() {
+            carouselCurrentScroll += (carouselTargetScroll - carouselCurrentScroll) * 0.08;
+
+            if (Math.abs(carouselCurrentScroll) > T * 10) {
+                const shift = Math.floor(carouselCurrentScroll / T) * T;
+                carouselCurrentScroll -= shift;
+                carouselTargetScroll -= shift;
+            }
+
+            carouselItems.forEach((item, i) => {
+                let x = (i * step) - carouselCurrentScroll;
+                
+                x = ((x + T / 2) % T + T) % T - T / 2;
+
+                const absX = Math.abs(x);
+                const norm = absX / step; 
+                
+                if (norm > 2.5) {
+                    item.style.display = 'none'; 
+                } else {
+                    item.style.display = 'block';
+                    const scale = Math.max(0.4, 1 - (norm * 0.3));
+                    const zIndex = Math.round(100 - norm * 10);
+                    item.style.transform = `translate(-50%, -50%) translateX(${x}px) scale(${scale})`;
+                    item.style.zIndex = zIndex;
+                }
+            });
+
+            carouselAnimId = requestAnimationFrame(render);
+        }
+        
+        render();
+
+        // Scroll no carrossel com o rato
+        carouselTrack.addEventListener("wheel", (e) => {
+            e.preventDefault();
+            // Ajuste da sensibilidade e direção do scroll
+            carouselTargetScroll += e.deltaY * 1.5;
+            
+            clearTimeout(window._carouselTimeout);
+            window._carouselTimeout = setTimeout(() => {
+                const nearestIndex = Math.round(carouselTargetScroll / step);
+                carouselTargetScroll = nearestIndex * step;
+                
+                const realIndex = ((nearestIndex % n) + n) % n;
+                updateMainVideo(realIndex);
+            }, 150); // Debounce aumentado ligeiramente para fluidez
+        }, { passive: false });
+
+        // Botões do Carrossel de Baixo
+        carouselPrevBtn.addEventListener("click", () => {
+            carouselTargetScroll -= step;
+            clearTimeout(window._carouselTimeout);
+            window._carouselTimeout = setTimeout(() => {
+                const nearestIndex = Math.round(carouselTargetScroll / step);
+                carouselTargetScroll = nearestIndex * step;
+                const realIndex = ((nearestIndex % n) + n) % n;
+                updateMainVideo(realIndex);
+            }, 100);
+        });
+
+        carouselNextBtn.addEventListener("click", () => {
+            carouselTargetScroll += step;
+            clearTimeout(window._carouselTimeout);
+            window._carouselTimeout = setTimeout(() => {
+                const nearestIndex = Math.round(carouselTargetScroll / step);
+                carouselTargetScroll = nearestIndex * step;
+                const realIndex = ((nearestIndex % n) + n) % n;
+                updateMainVideo(realIndex);
+            }, 100);
+        });
+    }
 
     // ==========================================
     // CLICKS NOS NOMES DOS DIRETORES
@@ -196,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
             const directorId = link.dataset.director;
-            startSliderForDirector(directorId);
+            startDirectorView(directorId);
         });
     });
 
