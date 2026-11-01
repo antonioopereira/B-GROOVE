@@ -11,9 +11,9 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #eae9dc;
+    background-color: #000; /* Fundo Escuro */
     font-family: 'General Sans', sans-serif;
-    color: #bb0000;
+    color: #ffffff; /* Texto Branco por defeito */
     user-select: none;
     overscroll-behavior: none;
 }
@@ -22,106 +22,47 @@ html, body {
    NAV OVERLAY & TOP BAR
    ========================================================================== */
 .top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 30px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
+    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 40px;
+    display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+    pointer-events: none;
 }
 
-.logo-container {
-    cursor: pointer;
-    transition: transform 0.3s ease;
+.logo-container, .home-link, .about-link {
+    pointer-events: auto;
 }
 
-.logo-container:hover {
-    transform: scale(1.05);
-}
-
+.logo-container { cursor: pointer; transition: transform 0.3s ease; }
+.logo-container:hover { transform: scale(1.05); }
 .logo-container img {
-    height: 35px;
-    width: auto;
-    display: block;
-    filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
+    height: 35px; width: auto; display: block;
+    filter: brightness(0) invert(1); /* Logo Branca */
 }
 
-.home-link, .about-link {
-    font-family: 'General Sans', sans-serif;
-    color: #bb0000;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
+.home-link, .about-link { 
+    font-family: 'General Sans', sans-serif; 
+    color: #ffffff; 
+    text-decoration: none; 
+    font-size: 16px; 
+    font-weight: 400; 
+    letter-spacing: 0.5px; 
 }
-
-.about-link {
-    text-transform: uppercase;
-}
+.about-link { text-transform: uppercase; }
 
 .nav-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(234, 233, 220, 0.95);
+    position: fixed; inset: 0; 
+    background: rgba(0, 0, 0, 0.95); /* Overlay Preto */
     backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
-    z-index: 9999;
+    display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; visibility: hidden;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s; z-index: 9999;
 }
+.nav-overlay.is-open { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s; }
 
-.nav-overlay.is-open {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
-}
+.nav-content { display: flex; flex-direction: column; gap: 20px; text-align: center; }
+.nav-content a { font-weight: 400; color: #ffffff; text-decoration: none; font-size: 24px; opacity: 0.6; transition: opacity 0.3s ease; }
+.nav-content a:hover, .nav-content a.active { opacity: 1; }
 
-.nav-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-}
-
-.nav-content a {
-    font-weight: 400;
-    color: #bb0000;
-    text-decoration: none;
-    font-size: 24px;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-}
-
-.nav-content a:hover,
-.nav-content a.active {
-    opacity: 1;
-}
-
-.nav-close {
-    position: absolute;
-    top: 40px;
-    right: 50px;
-    background: none;
-    border: none;
-    color: #bb0000;
-    cursor: pointer;
-    padding: 8px;
-    opacity: 0.5;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.nav-close:hover {
-    opacity: 1;
-    transform: rotate(90deg);
-}
+.nav-close { position: absolute; top: 40px; right: 50px; background: none; border: none; color: #ffffff; cursor: pointer; padding: 8px; opacity: 0.5; transition: opacity 0.3s ease, transform 0.3s ease; }
+.nav-close:hover { opacity: 1; transform: rotate(90deg); }
 
 /* ==========================================================================
    SIDE CALLOUTS
@@ -132,16 +73,15 @@ html, body {
     transform: translateY(-50%);
     font-family: 'General Sans', sans-serif;
     font-size: 18px;
-    color: #bb0000;
+    color: #ffffff; /* Branco */
     z-index: 100;
     pointer-events: none;
 }
-
 .side-callout.left { left: 15vw; }
 .side-callout.right { right: 15vw; }
 
 /* ==========================================================================
-   GALERIA & LIGHTBOX
+   GALERIA & LIGHTBOX (PRETO E BRANCO)
    ========================================================================== */
 .gallery-container {
     position: fixed;
@@ -164,18 +104,26 @@ html, body {
     cursor: pointer;
 }
 
+/* FILTRO PRETO E BRANCO */
 .gallery-item img {
     display: block;
     width: 100%;
     height: auto;
     object-fit: contain;
+    filter: grayscale(100%); /* Deixa a imagem a preto e branco */
+    transition: filter 0.4s ease; /* Transição suave */
+}
+
+/* EFEITO HOVER: Ganha cor quando passas o rato */
+.gallery-item:hover img {
+    filter: grayscale(0%);
 }
 
 /* Lightbox */
 .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.92);
+    background: rgba(0, 0, 0, 0.95); /* Lightbox mais escura */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -189,12 +137,14 @@ html, body {
     animation: lightboxFadeOut 0.2s ease forwards;
 }
 
+/* A imagem no Lightbox também mantém o filtro P&B */
 .lightbox img {
     max-width: 90vw;
     max-height: 90vh;
     object-fit: contain;
     display: block;
     cursor: default;
+    filter: grayscale(100%);
 }
 
 .lightbox-close {
@@ -203,7 +153,7 @@ html, body {
     right: 50px;
     background: none;
     border: none;
-    color: #eae9dc;
+    color: #ffffff;
     cursor: pointer;
     padding: 8px;
     opacity: 0.5;
@@ -231,26 +181,6 @@ html, body {
 }
 
 /* ==========================================================================
-   CALLOUT CENTRAL
-   ========================================================================== */
-.filter-callout {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #bb0000;
-    font-family: 'Harmattan', sans-serif;
-    font-size: 56px;
-    font-weight: 400;
-    letter-spacing: 0;
-    white-space: nowrap;
-    text-align: center;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* ==========================================================================
    FOOTER
    ========================================================================== */
 .site-footer {
@@ -266,28 +196,39 @@ html, body {
     pointer-events: none;
 }
 
-.footer-left {
-    display: flex;
-    align-items: flex-end;
-    gap: 15px;
-}
+.footer-left { display: flex; align-items: flex-end; gap: 15px; pointer-events: auto; }
+.footer-left .text { font-family: 'General Sans', sans-serif; font-size: 12px; line-height: 1.1; text-transform: lowercase; letter-spacing: 0.2px; margin-bottom: 2px; color: #ffffff; }
+.red-line { width: 60px; height: 1.5px; background-color: #ffffff; margin-bottom: 10px; } /* Linha branca */
+.footer-right { pointer-events: auto; }
+.copyright { font-family: 'General Sans', sans-serif; font-size: 12px; opacity: 0.8; color: #ffffff; }
 
-.footer-left .text {
-    font-size: 12px;
-    line-height: 1.1;
-    text-transform: lowercase;
-    letter-spacing: 0.2px;
-    margin-bottom: 2px;
-}
+/* ==========================================================================
+   RESPONSIVO (MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .top-bar { padding: 20px; }
+    .logo-container img { height: 28px; }
+    .nav-close { top: 20px; right: 20px; }
 
-.red-line {
-    width: 60px;
-    height: 1.5px;
-    background-color: #bb0000;
-    margin-bottom: 10px;
-}
+    .site-footer {
+        bottom: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 0 20px;
+    }
 
-.copyright {
-    font-size: 12px;
-    opacity: 0.8;
+    .footer-left .text,
+    .copyright {
+        font-size: 10px;
+    }
+    
+    .red-line {
+        width: 40px;
+    }
+
+    .lightbox-close {
+        top: 20px;
+        right: 20px;
+    }
 }

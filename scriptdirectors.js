@@ -68,13 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const carouselTrack = document.getElementById("director-carousel-track");
     const directorLinks = document.querySelectorAll(".director-link");
     
-    // Setas do vídeo principal
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
     
-    // Setas do carrossel
     const carouselPrevBtn = document.getElementById("carousel-prev-btn");
     const carouselNextBtn = document.getElementById("carousel-next-btn");
+
+    const backToMenuBtn = document.getElementById("back-to-menu");
+    const downChevron = document.getElementById("down-chevron");
+    const upChevron = document.getElementById("up-chevron");
 
     let currentDirectorVideos = [];
     let carouselItems = [];
@@ -86,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // VÍDEO DE FUNDO ALEATÓRIO (MENU)
     // ==========================================
     function playRandomMenuBackground() {
+        menuBgVideo.innerHTML = ""; 
         const randomVideo = videoData[Math.floor(Math.random() * videoData.length)];
         const iframe = document.createElement("iframe");
         iframe.src = `https://player.vimeo.com/video/${randomVideo.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
@@ -94,6 +97,17 @@ document.addEventListener("DOMContentLoaded", () => {
         menuBgVideo.appendChild(iframe);
     }
     playRandomMenuBackground();
+
+    // ==========================================
+    // SCROLL CONTROLS (Setas)
+    // ==========================================
+    downChevron.addEventListener("click", () => {
+        directorView.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    });
+
+    upChevron.addEventListener("click", () => {
+        directorView.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     // ==========================================
     // INICIAR VISÃO DO DIRETOR
@@ -138,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
             onComplete: () => {
                 submenu.style.display = "none";
                 menuBgVideo.style.display = "none";
-                menuBgVideo.innerHTML = "";
                 
                 directorView.classList.add("active");
                 directorView.scrollTop = 0;
@@ -148,6 +161,35 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // ==========================================
+    // VOLTAR AOS DIRETORES
+    // ==========================================
+    backToMenuBtn.addEventListener("click", () => {
+        gsap.to(directorView, {
+            opacity: 0,
+            duration: 0.4,
+            onComplete: () => {
+                directorView.classList.remove("active");
+                directorView.style.opacity = 1; 
+                directorView.scrollTop = 0;
+                
+                if (activeIframe) {
+                    activeIframe.remove();
+                    activeIframe = null;
+                }
+
+                submenu.style.display = "flex";
+                menuBgVideo.style.display = "block";
+                playRandomMenuBackground(); 
+
+                gsap.to([submenu, menuBgVideo], {
+                    opacity: 1,
+                    duration: 0.5
+                });
+            }
+        });
+    });
 
     // ==========================================
     // ATUALIZAR VÍDEO PRINCIPAL
@@ -181,7 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
     prevBtn.addEventListener("click", () => {
         let newIndex = currentVideoIndex - 1;
         if (newIndex < 0) newIndex = currentDirectorVideos.length - 1;
-        
         updateMainVideo(newIndex);
         snapCarouselTo(newIndex);
     });
@@ -189,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
     nextBtn.addEventListener("click", () => {
         let newIndex = currentVideoIndex + 1;
         if (newIndex >= currentDirectorVideos.length) newIndex = 0;
-        
         updateMainVideo(newIndex);
         snapCarouselTo(newIndex);
     });
@@ -261,10 +301,8 @@ document.addEventListener("DOMContentLoaded", () => {
         
         render();
 
-        // Scroll no carrossel com o rato
         carouselTrack.addEventListener("wheel", (e) => {
             e.preventDefault();
-            // Ajuste da sensibilidade e direção do scroll
             carouselTargetScroll += e.deltaY * 1.5;
             
             clearTimeout(window._carouselTimeout);
@@ -274,10 +312,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 const realIndex = ((nearestIndex % n) + n) % n;
                 updateMainVideo(realIndex);
-            }, 150); // Debounce aumentado ligeiramente para fluidez
+            }, 150);
         }, { passive: false });
 
-        // Botões do Carrossel de Baixo
         carouselPrevBtn.addEventListener("click", () => {
             carouselTargetScroll -= step;
             clearTimeout(window._carouselTimeout);
