@@ -1,5 +1,5 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -12,7 +12,7 @@ html, body {
     height: 100%;
     overflow: hidden;
     background-color: #eae9dc;
-    font-family: 'General Sans', sans-serif;
+    font-family: 'General Sans', sans-serif; /* Fonte base */
     color: #bb0000;
     user-select: none;
     overscroll-behavior: none;
@@ -23,32 +23,48 @@ html, body {
    ========================================================================== */
 .top-bar {
     position: fixed; top: 0; left: 0; width: 100%; padding: 30px 40px;
-    display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-    pointer-events: none; /* Permite clicar através da barra transparente */
+    display: grid; /* Grid para garantir o centro perfeito */
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center; 
+    z-index: 1000;
+    pointer-events: none;
 }
 
-/* Reativa os cliques nos elementos da barra */
-.logo-container, .home-link, .about-link {
-    pointer-events: auto;
-}
+/* Elementos clicáveis */
+.back-to-menu, .logo-toggle-btn, .about-link { pointer-events: auto; }
 
-.logo-container { cursor: pointer; transition: transform 0.3s ease; }
-.logo-container:hover { transform: scale(1.05); }
-.logo-container img {
-    height: 35px; width: auto; display: block;
-    filter: brightness(0) invert(1);
+/* Botão Back to Menu (Esquerda) */
+.back-to-menu {
+    justify-self: start;
+    background: transparent; border: none; color: #ffffff;
+    font-family: 'General Sans', sans-serif; font-size: 14px; padding: 0;
+    cursor: pointer; opacity: 0.7; transition: opacity 0.3s ease, transform 0.3s ease;
+    display: flex; align-items: center; gap: 8px;
 }
+.back-to-menu:hover { opacity: 1; transform: translateX(-5px); }
 
-.home-link, .about-link { 
-    font-family: 'General Sans', sans-serif; 
-    color: #ffffff; 
-    text-decoration: none; 
-    font-size: 16px; 
-    font-weight: 400; 
-    letter-spacing: 0.5px; 
+/* Botão da Logo (Centro) */
+.logo-toggle-btn {
+    justify-self: center; /* Força a logo ao centro */
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
-.about-link { text-transform: uppercase; }
+.logo-toggle-btn:hover { transform: scale(1.05); }
+.logo-toggle-btn img { height: 35px; width: auto; display: block; filter: brightness(0) invert(1); }
 
+/* Link About (Direita) */
+.about-link { 
+    justify-self: end;
+    font-family: 'General Sans', sans-serif; color: #ffffff; text-decoration: none; 
+    font-size: 16px; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase;
+    opacity: 0.8; transition: opacity 0.3s ease;
+}
+.about-link:hover { opacity: 1; }
+
+/* OVERLAY NAVEGAÇÃO */
 .nav-overlay {
     position: fixed; inset: 0; background: rgba(234, 233, 220, 0.95); backdrop-filter: blur(10px);
     display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; visibility: hidden;
@@ -57,8 +73,18 @@ html, body {
 .nav-overlay.is-open { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s; }
 
 .nav-content { display: flex; flex-direction: column; gap: 20px; text-align: center; }
-.nav-content a { font-weight: 400; color: #bb0000; text-decoration: none; font-size: 24px; opacity: 0.6; transition: opacity 0.3s ease; }
+.nav-content a { font-family: 'General Sans', sans-serif; font-weight: 400; color: #bb0000; text-decoration: none; font-size: 24px; opacity: 0.6; transition: opacity 0.3s ease; }
 .nav-content a:hover, .nav-content a.active { opacity: 1; }
+
+/* Logo Vermelha no Menu Overlay */
+.nav-content a .nav-logo {
+    height: 40px; width: 40px; margin: 0 auto 10px auto; display: block;
+    background-color: #bb0000; 
+    -webkit-mask-image: url('Asset 1.svg'); mask-image: url('Asset 1.svg');
+    -webkit-mask-size: contain; mask-size: contain;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    -webkit-mask-position: center; mask-position: center;
+}
 
 .nav-close { position: absolute; top: 40px; right: 50px; background: none; border: none; color: #bb0000; cursor: pointer; padding: 8px; opacity: 0.5; transition: opacity 0.3s ease, transform 0.3s ease; }
 .nav-close:hover { opacity: 1; transform: rotate(90deg); }
@@ -71,6 +97,7 @@ html, body {
 
 .directors-submenu { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; z-index: 50; background: transparent; transition: opacity 0.5s ease; }
 
+/* Nome dos Diretores no Menu (General Sans) */
 .director-link { 
     font-family: 'General Sans', sans-serif; 
     font-weight: 400; 
@@ -82,53 +109,19 @@ html, body {
     transition: opacity 0.3s ease, transform 0.3s ease; 
 }
 
-.director-link:hover { 
-    opacity: 1; 
-    transform: scale(1.05); 
-    color: #ffffff; 
-}
+.director-link:hover { opacity: 1; transform: scale(1.05); color: #ffffff; }
 
 /* ==========================================================================
-   VISÃO DO DIRETOR (Player + Carrossel)
+   VISÃO DO DIRETOR
    ========================================================================== */
-.director-view {
-    position: fixed; inset: 0; z-index: 10; display: none;
-    overflow-y: auto; overflow-x: hidden;
-    scroll-snap-type: y mandatory; scroll-behavior: smooth;
-}
+.director-view { position: fixed; inset: 0; z-index: 10; display: none; }
 .director-view.active { display: block; }
 
-/* ----- Secção 1: Vídeo (100vh) ----- */
-.video-section { height: 100vh; width: 100vw; position: relative; background: #000; scroll-snap-align: start; overflow: hidden; }
+.video-section { height: 100vh; width: 100vw; position: relative; background: #000; overflow: hidden; }
+
 .main-iframe-wrapper { position: absolute; inset: 0; z-index: 1; }
 .main-iframe-wrapper iframe { width: 100%; height: 100%; border: 0; object-fit: cover; transform: scale(1.55); }
 
-/* BOTÃO VOLTAR AOS DIRETORES (Posicionado relativamente ao .video-section) */
-.back-to-menu {
-    position: absolute;
-    top: 100px;
-    left: 40px;
-    z-index: 1001;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    font-family: 'General Sans', sans-serif;
-    font-size: 14px;
-    padding: 0;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.back-to-menu:hover {
-    opacity: 1;
-    transform: translateX(-5px);
-}
-
-/* Callouts e Setas (Brancos) */
 .side-callout { position: absolute; top: 50%; transform: translateY(-50%); font-family: 'General Sans', sans-serif; font-size: 18px; color: #ffffff; z-index: 100; pointer-events: none; }
 .side-callout.left { left: 15vw; }
 .side-callout.right { right: 15vw; }
@@ -140,123 +133,51 @@ html, body {
 .nav-arrow.hidden { display: none; }
 
 .video-info-center { 
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    text-align: center; 
-    color: #ffffff; 
-    z-index: 10; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    pointer-events: none; 
-    width: 90%; 
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    text-align: center; color: #ffffff; z-index: 10; display: flex; flex-direction: column; 
+    align-items: center; pointer-events: none; width: 90%; 
 }
 
+/* Título dos Trabalhos (Harmattan) */
 .video-info-center .dir-name { 
-    font-family: 'General Sans', sans-serif; 
-    font-size: clamp(1rem, 1.5vw, 1.2rem); 
-    font-weight: 400; 
-    line-height: 1.2; 
+    font-family: 'Harmattan', sans-serif; 
+    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    font-weight: 500; 
+    line-height: 1.1; 
     margin-bottom: 4px; 
+    opacity: 0.95;
 }
 
 .video-info-center .brand-name { 
-    font-family: 'General Sans', sans-serif; 
-    font-size: clamp(2rem, 4vw, 3.5rem); 
-    font-weight: 600; 
-    line-height: 1; 
-    letter-spacing: -0.02em; 
+    font-family: 'Harmattan', sans-serif; 
+    font-size: clamp(3.5rem, 7vw, 6rem); 
+    font-weight: 700; line-height: 0.9; letter-spacing: -0.02em; 
 }
 
-.down-chevron { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 10; opacity: 0.8; cursor: pointer; transition: opacity 0.3s ease; }
-.down-chevron:hover { opacity: 1; }
-
-/* ----- Secção 2: Carrossel (Fundo Preto) ----- */
-.carousel-section { 
-    height: 100vh; 
-    width: 100vw; 
-    position: relative; 
-    background: #000; /* Fundo Preto */
-    scroll-snap-align: start; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow: hidden; 
+/* ==========================================================================
+   CARROSSEL
+   ========================================================================== */
+.inline-carousel-container {
+    position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+    width: 100vw; height: 15vh; z-index: 50; display: flex; align-items: center; justify-content: center;
+    pointer-events: none; 
 }
-
-.carousel-track { position: absolute; inset: 0; overflow: hidden; }
-
+.inline-carousel-container .carousel-track { position: relative; width: 100%; height: 100%; pointer-events: auto; }
 .carousel-item { 
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    width: 25vw; 
-    aspect-ratio: 16 / 9; 
-    transform-origin: center center; 
-    will-change: transform, opacity; 
-    background: #111; 
-    cursor: pointer; 
-    overflow: hidden; 
+    position: absolute; top: 50%; left: 50%; width: 12vw; aspect-ratio: 16 / 9; 
+    transform-origin: center center; will-change: transform, opacity; background: #111; 
+    cursor: pointer; overflow: hidden;
 }
-
-.carousel-item .poster-preview { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
-
-/* SETA PARA CIMA NO CARROSSEL (Branca e descida para não colidir com a top-bar) */
-.up-chevron {
-    position: absolute;
-    top: 120px; /* Empurrado para baixo */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.up-chevron:hover { 
-    opacity: 1; 
-    transform: translateX(-50%) scale(1.1); 
-}
-
-/* Setas do Carrossel (Brancas) */
-.carousel-nav-arrow { 
-    position: absolute; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    background: none; 
-    border: none; 
-    color: #ffffff; /* Cor Branca */
-    cursor: pointer; 
-    padding: 20px; 
-    z-index: 100; 
-    opacity: 0.7; 
-    transition: opacity 0.3s ease, transform 0.3s ease; 
-}
-.carousel-nav-arrow:hover { 
-    opacity: 1; 
-    transform: translateY(-50%) scale(1.1); 
-}
-.carousel-nav-arrow.left { left: 40px; }
-.carousel-nav-arrow.right { right: 40px; }
+.carousel-item .poster-preview { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; opacity: 0.5; transition: opacity 0.3s ease; }
+.carousel-item.active-item .poster-preview { opacity: 1; }
 
 /* ==========================================================================
    FOOTER
    ========================================================================== */
 .site-footer { 
-    position: fixed; 
-    bottom: 30px; 
-    left: 0; 
-    width: 100%; 
-    padding: 0 40px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: flex-end; 
-    z-index: 100; 
-    pointer-events: none; 
+    position: fixed; bottom: 30px; left: 0; width: 100%; padding: 0 40px; 
+    display: flex; justify-content: space-between; align-items: flex-end; 
+    z-index: 100; pointer-events: none; 
 }
 .footer-left { display: flex; align-items: flex-end; gap: 15px; pointer-events: auto; }
 .footer-left .text { font-family: 'General Sans', sans-serif; font-size: 12px; line-height: 1.1; text-transform: lowercase; letter-spacing: 0.2px; margin-bottom: 2px; color: #ffffff; }

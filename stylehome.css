@@ -1,5 +1,5 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -11,345 +11,145 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #eae9dc;
-    font-family: 'General Sans', sans-serif;
-    color: #bb0000;
+    background-color: #000;
+    font-family: 'General Sans', sans-serif; 
+    color: #ffffff;
     user-select: none;
     overscroll-behavior: none;
 }
 
 /* ==========================================================================
-   NAV OVERLAY
-   ========================================================================== */
-.nav-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(234, 233, 220, 0.92);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
-    z-index: 999;
-}
-
-.nav-overlay.is-open {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
-}
-
-.nav-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-}
-
-.nav-content a {
-    font-weight: 400;
-    color: #bb0000;
-    text-decoration: none;
-    font-size: 24px;
-    letter-spacing: 0.5px;
-    opacity: 0.6;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.nav-content a:hover,
-.nav-content a.active {
-    opacity: 1;
-    transform: scale(1.05);
-}
-
-.nav-close {
-    position: absolute;
-    top: 40px;
-    right: 50px;
-    background: none;
-    border: none;
-    color: #bb0000;
-    cursor: pointer;
-    padding: 8px;
-    opacity: 0.5;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.nav-close:hover {
-    opacity: 1;
-    transform: rotate(90deg);
-}
-
-.nav-close svg {
-    display: block;
-}
-
-/* ==========================================================================
-   TOP BAR (Apenas Logo Central)
+   NAV OVERLAY & TOP BAR
    ========================================================================== */
 .top-bar {
-    position: fixed;
-    top: 30px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 100;
+    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 40px;
+    display: flex; /* Alterado de grid para flex */
+    justify-content: space-between; /* Hambúrguer à esquerda, About à direita */
+    align-items: center; 
+    z-index: 1000;
     pointer-events: none;
 }
 
-.logo-container {
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    pointer-events: auto;
-}
+.menu-toggle, .about-link { pointer-events: auto; }
 
-.logo-container:hover {
-    transform: scale(1.05);
+.menu-toggle {
+    background: none; border: none; color: #ffffff; cursor: pointer;
+    padding: 0; opacity: 0.8; transition: opacity 0.3s ease, transform 0.3s ease;
 }
+.menu-toggle:hover { opacity: 1; transform: scale(1.05); }
 
-.logo-container img {
-    height: 50px;
-    width: auto;
+.about-link { 
+    font-family: 'General Sans', sans-serif; 
+    color: #ffffff; text-decoration: none; 
+    font-size: 16px; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase;
+    opacity: 0.8; transition: opacity 0.3s ease;
+}
+.about-link:hover { opacity: 1; }
+
+/* OVERLAY NAVEGAÇÃO */
+.nav-overlay {
+    position: fixed; inset: 0; background: rgba(234, 233, 220, 0.95); backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; visibility: hidden;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s; z-index: 9999;
+}
+.nav-overlay.is-open { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s; }
+
+.nav-content { display: flex; flex-direction: column; gap: 20px; text-align: center; }
+.nav-content a { 
+    font-family: 'General Sans', sans-serif; 
+    font-weight: 400; color: #bb0000; text-decoration: none; font-size: 24px; 
+    opacity: 0.6; transition: opacity 0.3s ease; 
+}
+.nav-content a:hover, .nav-content a.active { opacity: 1; }
+
+/* ESTILO DA LOGO NO MENU (VERMELHA COM MÁSCARA) */
+.nav-content a .nav-logo {
+    height: 40px;
+    width: 40px; 
+    margin: 0 auto 10px auto;
     display: block;
-    filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
+    background-color: #bb0000; 
+    
+    -webkit-mask-image: url('Asset 1.svg');
+    mask-image: url('Asset 1.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+.nav-close { position: absolute; top: 40px; right: 50px; background: none; border: none; color: #bb0000; cursor: pointer; padding: 8px; opacity: 0.5; transition: opacity 0.3s ease, transform 0.3s ease; }
+.nav-close:hover { opacity: 1; transform: rotate(90deg); }
+
+/* ==========================================================================
+   VÍDEO FULLSCREEN
+   ========================================================================== */
+.menu-bg-video { 
+    position: fixed; inset: 0; z-index: 1; overflow: hidden; background: #000; pointer-events: none; 
+}
+.menu-bg-video iframe { 
+    width: 100%; height: 100%; border: 0; object-fit: cover; transform: scale(1.55); 
 }
 
 /* ==========================================================================
-   CARROSSEL INFINITO
+   SETAS DE NAVEGAÇÃO
    ========================================================================== */
-.carousel-viewport {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    z-index: 10;
+.nav-arrow { 
+    position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ffffff; 
+    cursor: pointer; padding: 20px; z-index: 100; opacity: 0.7; transition: opacity 0.3s ease, transform 0.3s ease; 
 }
-
-.carousel-track {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-}
-
-.carousel-item {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50vw;          
-    aspect-ratio: 16 / 9;
-    transform-origin: center center;
-    will-change: transform, opacity;
-    background: #000;
-    cursor: pointer;
-    overflow: hidden;
-}
-
-.carousel-item .poster-preview {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-}
-
-.carousel-item .video-wrapper {
-    position: absolute;
-    inset: 0;
-    background: #000;
-    z-index: 5;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.carousel-item:hover .video-wrapper {
-    opacity: 1;
-}
-
-.carousel-item .video-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-}
+.nav-arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.1); }
+.left-arrow { left: 40px; }
+.right-arrow { right: 40px; }
 
 /* ==========================================================================
-   INFORMAÇÃO DO VÍDEO (HOVER)
+   TEXTOS (Callouts e Informação Central)
    ========================================================================== */
-.carousel-item .video-title {
-    position: absolute;
-    bottom: 20px;
-    left: 25px;
-    z-index: 10;
-    color: #ffffff; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    transform: translateY(10px);
-    max-width: 85%;
+.side-callout { 
+    position: fixed; top: 50%; transform: translateY(-50%); 
+    font-family: 'General Sans', sans-serif; font-size: 18px; color: #ffffff; 
+    z-index: 10; pointer-events: none; 
+}
+.side-callout.left { left: 15vw; }
+.side-callout.right { right: 15vw; }
+
+.video-info-center { 
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    text-align: center; color: #ffffff; z-index: 10; display: flex; flex-direction: column; 
+    align-items: center; pointer-events: none; width: 90%; 
 }
 
-.carousel-item:hover .video-title {
-    opacity: 1;
-    transform: translateY(0);
+/* FONTE HARMATTAN APENAS NO TÍTULO DO DIRETOR E DA MARCA */
+.video-info-center .dir-name { 
+    font-family: 'Harmattan', sans-serif; 
+    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    font-weight: 500; 
+    line-height: 1.1; 
+    margin-bottom: 4px; 
+    opacity: 0.95;
 }
 
-.carousel-item .dir-info {
-    font-family: 'General Sans', sans-serif;
-    font-size: 14px;
-    line-height: 1.1;
-    font-weight: 400;
-    text-transform: none;
-    opacity: 0.9;
+.video-info-center .brand-name { 
+    font-family: 'Harmattan', sans-serif; 
+    font-size: clamp(3.5rem, 7vw, 6rem); 
+    font-weight: 700; line-height: 0.9; letter-spacing: -0.02em; 
 }
-
-.carousel-item .brand-info {
-    font-family: 'General Sans', sans-serif;
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    word-wrap: break-word;
-}
-
-/* ==========================================================================
-   SETAS DO CARROSSEL
-   ========================================================================== */
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
-    background: none;
-    border: none;
-    color: #bb0000;
-    cursor: pointer;
-    padding: 20px;
-    opacity: 0.7;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.carousel-btn:hover {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.1);
-}
-
-.carousel-btn--prev { left: 40px; }
-.carousel-btn--next { right: 40px; }
 
 /* ==========================================================================
    FOOTER
    ========================================================================== */
-.site-footer {
-    position: fixed;
-    bottom: 30px;
-    left: 0;
-    width: 100%;
-    padding: 0 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    z-index: 100;
-    pointer-events: none;
+.site-footer { 
+    position: fixed; bottom: 30px; left: 0; width: 100%; padding: 0 40px; 
+    display: flex; justify-content: space-between; align-items: flex-end; 
+    z-index: 100; pointer-events: none; 
 }
-
-.site-footer * { pointer-events: auto; }
-
-.footer-left {
-    display: flex;
-    align-items: flex-end;
-    gap: 15px;
+.footer-left { display: flex; align-items: flex-end; gap: 15px; pointer-events: auto; }
+.footer-left .text { 
+    font-family: 'General Sans', sans-serif; font-size: 12px; line-height: 1.1; text-transform: lowercase; 
+    letter-spacing: 0.2px; margin-bottom: 2px; color: #ffffff; 
 }
-
-.footer-left .text {
-    font-size: 12px;
-    line-height: 1.1;
-    text-transform: lowercase;
-    letter-spacing: 0.2px;
-    margin-bottom: 2px;
-}
-
-.red-line {
-    width: 60px;
-    height: 1.5px;
-    background-color: #bb0000;
-    margin-bottom: 10px;
-}
-
-.footer-right {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    position: relative;
-    padding-right: 30px;
-}
-
-.footer-right .living-text {
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.footer-right .call-friend {
-    font-family: 'Harmattan', sans-serif;
-    font-size: 72px;
-    font-weight: 400;
-    line-height: 0.7;
-}
-
-.footer-right .copyright {
-    position: absolute;
-    bottom: -15px;
-    right: 0;
-    font-size: 10px;
-    opacity: 0.8;
-}
-
-/* ==========================================================================
-   MOBILE
-   ========================================================================== */
-@media (max-width: 768px) {
-    .top-bar { top: 20px; }
-    .logo-container img { height: 35px; }
-
-    .carousel-item { width: 80vw; }
-
-    .carousel-btn { padding: 10px; }
-    .carousel-btn--prev { left: 10px; }
-    .carousel-btn--next { right: 10px; }
-
-    .carousel-item .video-title {
-        bottom: 15px;
-        left: 15px;
-    }
-    
-    .carousel-item .dir-info { font-size: 12px; }
-    .carousel-item .brand-info { font-size: 18px; }
-
-    .site-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-        padding: 0 20px;
-        bottom: 20px;
-    }
-
-    .footer-right {
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-    
-    .footer-right .living-text { font-size: 16px; }
-    .footer-right .call-friend { font-size: 48px; }
-    .footer-right .copyright { position: static; margin-left: 10px; }
-}
+.red-line { width: 60px; height: 1.5px; background-color: #ffffff; margin-bottom: 10px; }
+.footer-right { pointer-events: auto; }
+.copyright { font-family: 'General Sans', sans-serif; font-size: 12px; opacity: 0.8; color: #ffffff; }

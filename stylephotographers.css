@@ -23,30 +23,40 @@ html, body {
    ========================================================================== */
 .top-bar {
     position: fixed; top: 0; left: 0; width: 100%; padding: 30px 40px;
-    display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+    display: grid; /* Alterado para grid para centrar a logo */
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center; z-index: 1000;
     pointer-events: none;
 }
 
-.logo-container, .home-link, .about-link {
+.logo-container, .about-link {
     pointer-events: auto;
 }
 
-.logo-container { cursor: pointer; transition: transform 0.3s ease; }
+.logo-container { 
+    justify-self: center; /* Centra a logo */
+    cursor: pointer; 
+    transition: transform 0.3s ease; 
+}
 .logo-container:hover { transform: scale(1.05); }
 .logo-container img {
     height: 35px; width: auto; display: block;
     filter: brightness(0) invert(1); /* Logo Branca */
 }
 
-.home-link, .about-link { 
+.about-link { 
+    justify-self: end; /* Alinha o About à direita */
     font-family: 'General Sans', sans-serif; 
     color: #ffffff; 
     text-decoration: none; 
     font-size: 16px; 
     font-weight: 400; 
     letter-spacing: 0.5px; 
+    text-transform: uppercase;
+    opacity: 0.8; 
+    transition: opacity 0.3s ease;
 }
-.about-link { text-transform: uppercase; }
+.about-link:hover { opacity: 1; }
 
 .nav-overlay {
     position: fixed; inset: 0; 
@@ -73,7 +83,7 @@ html, body {
     transform: translateY(-50%);
     font-family: 'General Sans', sans-serif;
     font-size: 18px;
-    color: #ffffff; /* Branco */
+    color: #ffffff;
     z-index: 100;
     pointer-events: none;
 }
@@ -110,20 +120,13 @@ html, body {
     width: 100%;
     height: auto;
     object-fit: contain;
-    filter: grayscale(100%); /* Deixa a imagem a preto e branco */
-    transition: filter 0.4s ease; /* Transição suave */
-}
-
-/* EFEITO HOVER: Ganha cor quando passas o rato */
-.gallery-item:hover img {
-    filter: grayscale(0%);
 }
 
 /* Lightbox */
 .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.95); /* Lightbox mais escura */
+    background: rgba(0, 0, 0, 0.95);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -137,14 +140,12 @@ html, body {
     animation: lightboxFadeOut 0.2s ease forwards;
 }
 
-/* A imagem no Lightbox também mantém o filtro P&B */
 .lightbox img {
     max-width: 90vw;
     max-height: 90vh;
     object-fit: contain;
     display: block;
     cursor: default;
-    filter: grayscale(100%);
 }
 
 .lightbox-close {
@@ -198,7 +199,7 @@ html, body {
 
 .footer-left { display: flex; align-items: flex-end; gap: 15px; pointer-events: auto; }
 .footer-left .text { font-family: 'General Sans', sans-serif; font-size: 12px; line-height: 1.1; text-transform: lowercase; letter-spacing: 0.2px; margin-bottom: 2px; color: #ffffff; }
-.red-line { width: 60px; height: 1.5px; background-color: #ffffff; margin-bottom: 10px; } /* Linha branca */
+.red-line { width: 60px; height: 1.5px; background-color: #ffffff; margin-bottom: 10px; }
 .footer-right { pointer-events: auto; }
 .copyright { font-family: 'General Sans', sans-serif; font-size: 12px; opacity: 0.8; color: #ffffff; }
 

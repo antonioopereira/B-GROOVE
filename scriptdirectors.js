@@ -16,7 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const directorNames = {
         "andre-chitas": "André Chitas",
         "goncalo-xz": "Gonçalo Xz",
-        "ines-monteiro": "Inês Monteiro"
+        "ines-monteiro": "Inês Monteiro",
+        "francisco-ramalho": "Francisco Ramalho" // NOVO
     };
 
     // ==========================================
@@ -51,7 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229125856", brand: "Kasha feat. Mar", title: "Livro Aberto", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
         { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
         { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
-        { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" }
+        { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" },
+        
+        // NOVOS VÍDEOS - FRANCISCO RAMALHO
+        { id: "1242961944", brand: "Memento Mori", title: "", director: "francisco-ramalho" },
+        { id: "1242930562", brand: "Silly", title: "", director: "francisco-ramalho" },
+        { id: "1242942830", brand: "Plutónio", title: "", director: "francisco-ramalho" },
+        { id: "1242946173", brand: "D-A-M-A", title: "", director: "francisco-ramalho" }
     ];
 
     // ==========================================
@@ -70,13 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
-    
-    const carouselPrevBtn = document.getElementById("carousel-prev-btn");
-    const carouselNextBtn = document.getElementById("carousel-next-btn");
 
     const backToMenuBtn = document.getElementById("back-to-menu");
-    const downChevron = document.getElementById("down-chevron");
-    const upChevron = document.getElementById("up-chevron");
 
     let currentDirectorVideos = [];
     let carouselItems = [];
@@ -99,17 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     playRandomMenuBackground();
 
     // ==========================================
-    // SCROLL CONTROLS (Setas)
-    // ==========================================
-    downChevron.addEventListener("click", () => {
-        directorView.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-    });
-
-    upChevron.addEventListener("click", () => {
-        directorView.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // ==========================================
     // INICIAR VISÃO DO DIRETOR
     // ==========================================
     function startDirectorView(directorId) {
@@ -125,13 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
             item.classList.add("carousel-item");
             
             const img = document.createElement("img");
+            // Fallback automático para vumbnail se não houver Thumb customizada
             img.src = video.Thumb || `https://vumbnail.com/${video.id}.jpg`;
             img.classList.add("poster-preview");
             item.appendChild(img);
             
             item.addEventListener("click", () => {
                 updateMainVideo(index);
-                directorView.scrollTo({ top: 0, behavior: 'smooth' });
+                snapCarouselTo(index);
             });
 
             carouselTrack.appendChild(item);
@@ -154,10 +146,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 menuBgVideo.style.display = "none";
                 
                 directorView.classList.add("active");
-                directorView.scrollTop = 0;
                 
                 initCarousel();
                 updateMainVideo(0);
+                snapCarouselTo(0);
             }
         });
     }
@@ -172,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
             onComplete: () => {
                 directorView.classList.remove("active");
                 directorView.style.opacity = 1; 
-                directorView.scrollTop = 0;
                 
                 if (activeIframe) {
                     activeIframe.remove();
@@ -201,10 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const video = currentDirectorVideos[index];
         const dirName = directorNames[video.director] || video.director;
-        const projectName = video.title ? `${video.brand} - ${video.title}` : video.brand;
         
         mainDirName.innerHTML = `Dir.<br>${dirName}`;
-        mainBrandName.innerText = projectName;
+        mainBrandName.innerText = video.brand;
 
         if (activeIframe) activeIframe.remove();
         
@@ -215,6 +205,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         mainIframeWrapper.appendChild(iframe);
         activeIframe = iframe;
+
+        carouselItems.forEach((item, i) => {
+            if (i === index) item.classList.add("active-item");
+            else item.classList.remove("active-item");
+        });
     }
 
     // ==========================================
@@ -236,25 +231,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("keydown", (e) => {
         if (!directorView.classList.contains("active")) return;
-        if (directorView.scrollTop > window.innerHeight / 2) return; 
         
         if (e.key === "ArrowLeft") prevBtn.click();
         if (e.key === "ArrowRight") nextBtn.click();
     });
 
     // ==========================================
-    // LÓGICA DO CARROSSEL INFINITO
+    // LÓGICA DO CARROSSEL (3 Cartas, Focado no Centro)
     // ==========================================
     let carouselCurrentScroll = 0;
     let carouselTargetScroll = 0;
 
     function getCarouselStep() {
-        return window.innerWidth * 0.30; 
+        return window.innerWidth * 0.11; 
     }
 
     function snapCarouselTo(index) {
         const step = getCarouselStep();
-        const currentBase = Math.round(carouselCurrentScroll / (currentDirectorVideos.length * step)) * (currentDirectorVideos.length * step);
+        const n = carouselItems.length;
+        
+        const currentBase = Math.round(carouselCurrentScroll / (n * step)) * (n * step);
         carouselTargetScroll = currentBase + (index * step);
     }
 
@@ -266,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const step = getCarouselStep();
         const n = carouselItems.length;
-        const T = n * step;
+        const T = n * step; 
 
         function render() {
             carouselCurrentScroll += (carouselTargetScroll - carouselCurrentScroll) * 0.08;
@@ -285,14 +281,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 const absX = Math.abs(x);
                 const norm = absX / step; 
                 
-                if (norm > 2.5) {
+                if (norm > 1.5) {
                     item.style.display = 'none'; 
                 } else {
                     item.style.display = 'block';
-                    const scale = Math.max(0.4, 1 - (norm * 0.3));
+                    
+                    const scale = Math.max(0.7, 1 - (norm * 0.3)); 
                     const zIndex = Math.round(100 - norm * 10);
-                    item.style.transform = `translate(-50%, -50%) translateX(${x}px) scale(${scale})`;
+                    
+                    item.style.transform = `translate(-50%, -50%) translateX(${x * 0.85}px) scale(${scale})`;
                     item.style.zIndex = zIndex;
+                    
+                    item.style.opacity = Math.max(0.4, 1 - (norm * 0.6));
                 }
             });
 
@@ -314,32 +314,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateMainVideo(realIndex);
             }, 150);
         }, { passive: false });
-
-        carouselPrevBtn.addEventListener("click", () => {
-            carouselTargetScroll -= step;
-            clearTimeout(window._carouselTimeout);
-            window._carouselTimeout = setTimeout(() => {
-                const nearestIndex = Math.round(carouselTargetScroll / step);
-                carouselTargetScroll = nearestIndex * step;
-                const realIndex = ((nearestIndex % n) + n) % n;
-                updateMainVideo(realIndex);
-            }, 100);
-        });
-
-        carouselNextBtn.addEventListener("click", () => {
-            carouselTargetScroll += step;
-            clearTimeout(window._carouselTimeout);
-            window._carouselTimeout = setTimeout(() => {
-                const nearestIndex = Math.round(carouselTargetScroll / step);
-                carouselTargetScroll = nearestIndex * step;
-                const realIndex = ((nearestIndex % n) + n) % n;
-                updateMainVideo(realIndex);
-            }, 100);
-        });
     }
 
     // ==========================================
-    // CLICKS NOS NOMES DOS DIRETORES
+    // CLICKS NOS NOMES DOS DIRETORES (MENU INICIAL)
     // ==========================================
     directorLinks.forEach(link => {
         link.addEventListener("click", (e) => {

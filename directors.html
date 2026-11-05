@@ -18,7 +18,10 @@
             </svg>
         </button>
         <nav class="nav-content">
-            <a href="index.html">home</a>
+            <!-- Logo em formato DIV para usar a máscara de cor exata -->
+            <a href="index.html" aria-label="Home">
+                <div class="nav-logo"></div>
+            </a>
             <a href="directors.html" class="active">directors</a>
             <a href="photographers.html">photographers</a>
             <a href="filmtv.html">film & tv</a>
@@ -31,45 +34,47 @@
 
     <!-- Top Bar -->
     <header class="top-bar">
-        <div class="logo-container" id="logo-toggle">
+        <!-- Botão Back to directors no lugar da logo -->
+        <button class="back-to-menu" id="back-to-menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to directors
+        </button>
+
+        <!-- Logo no centro, funciona como botão para abrir o menu nav -->
+        <button class="logo-toggle-btn" id="logo-toggle" aria-label="Abrir menu">
             <img src="Asset 1.svg" alt="B Groove Logo">
-        </div>
-        <a href="index.html" class="home-link">home</a>
-        <a href="about.html" class="about-link">ABOUT</a>
+        </button>
+        
+        <!-- Link About -->
+        <a href="us.html" class="about-link">ABOUT</a>
     </header>
 
     <!-- Vídeo de fundo aleatório (Menu Inicial) -->
     <div class="menu-bg-video" id="menu-bg-video"></div>
 
-    <!-- Submenu de Diretores (Menu Inicial) -->
+        <!-- Submenu de Diretores (Menu Inicial) -->
     <nav class="directors-submenu" id="directors-submenu">
         <a href="#" class="director-link" data-director="andre-chitas">André Chitas</a>
         <a href="#" class="director-link" data-director="goncalo-xz">Gonçalo Xz</a>
         <a href="#" class="director-link" data-director="ines-monteiro">Inês Monteiro</a>
+        <a href="#" class="director-link" data-director="francisco-ramalho">Francisco Ramalho</a> <!-- NOVO -->
     </nav>
 
-    <!-- Visão do Diretor (Container com Scroll Vertical) -->
+    <!-- Visão do Diretor (Player Fullscreen + Carrossel) -->
     <div class="director-view" id="director-view">
         
-        <!-- Secção 1: Vídeo em Ecrã Inteiro -->
         <div class="video-section">
             
             <div class="main-iframe-wrapper" id="main-iframe-wrapper"></div>
-            
-            <!-- BOTÃO VOLTAR AOS DIRETORES (Agora dentro do video-section) -->
-            <button class="back-to-menu" id="back-to-menu">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back to directors
-            </button>
 
-            <!-- Callouts fixos na secção do vídeo -->
+            <!-- Callouts fixos -->
             <div class="side-callout left">call a friend.</div>
             <div class="side-callout right">call a friend.</div>
 
-            <!-- Setas de Navegação do Vídeo -->
+            <!-- Setas de Navegação do Vídeo Principal -->
             <button class="nav-arrow left-arrow" id="prev-btn">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
@@ -82,43 +87,17 @@
                 </svg>
             </button>
 
+            <!-- Informação Central (Nome do Diretor e Marca) -->
             <div class="video-info-center">
-                <div class="dir-name" id="main-dir-name">Dir.</div>
+                <div class="dir-name" id="main-dir-name">Dir.<br>André Chitas</div>
                 <div class="brand-name" id="main-brand-name">Marca</div>
             </div>
 
-            <!-- Botão para baixo (Atalho para o Carrossel) -->
-            <div class="down-chevron" id="down-chevron">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
+            <!-- Carrossel de Miniaturas (Embutido) -->
+            <div class="inline-carousel-container">
+                <div class="carousel-track" id="director-carousel-track"></div>
             </div>
-        </div>
 
-        <!-- Secção 2: Carrossel (Fundo Preto) -->
-        <div class="carousel-section">
-            
-            <!-- SETA PARA CIMA (Branca) -->
-            <button class="up-chevron" id="up-chevron">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="18 15 12 9 6 15"></polyline>
-                </svg>
-            </button>
-
-            <!-- Setas de Navegação do Carrossel (Brancas) -->
-            <button class="carousel-nav-arrow left" id="carousel-prev-btn">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
-
-            <div class="carousel-track" id="director-carousel-track"></div>
-
-            <button class="carousel-nav-arrow right" id="carousel-next-btn">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </button>
         </div>
 
     </div>
@@ -134,6 +113,7 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="scriptdirectors.js"></script>
 
