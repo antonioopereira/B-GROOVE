@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B Groove - International</title>
     <link rel="icon" type="image/svg+xml" href="Asset 1.svg">
+    
+    <!-- CSS Global do Menu -->
+    <link rel="stylesheet" href="nav.css">
+    
+    <!-- CSS Específico da Página -->
     <link rel="stylesheet" href="styleinternational.css">
 </head>
 <body>
 
-    <!-- Overlay de Navegação Fullscreen -->
+    <!-- MENU GLOBAL (Overlay) -->
     <div class="nav-overlay" id="nav-overlay">
         <button class="nav-close" id="nav-close" aria-label="Fechar menu">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
@@ -18,7 +23,9 @@
             </svg>
         </button>
         <nav class="nav-content">
-            <a href="index.html">home</a>
+            <a href="index.html" aria-label="Home">
+                <div class="nav-logo"></div>
+            </a>
             <a href="directors.html">directors</a>
             <a href="photographers.html">photographers</a>
             <a href="filmtv.html">film & tv</a>
@@ -29,16 +36,16 @@
         </nav>
     </div>
 
-    <!-- Top Bar (Apenas Logo ao centro e About à direita) -->
+    <!-- Top Bar (Logo ao centro) -->
     <header class="top-bar">
-        <!-- Elemento vazio para compensar a grelha à esquerda -->
+        <!-- Elemento vazio para compensar a grelha -->
         <div></div>
 
-        <div class="logo-container" id="logo-toggle">
+        <!-- Logo no centro (Abre o menu) -->
+        <button class="logo-toggle-btn" id="logo-toggle" aria-label="Abrir menu">
             <img src="Asset 1.svg" alt="B Groove Logo">
-        </div>
+        </button>
         
-        <!-- Corrigido o link de about.html para us.html -->
         <a href="us.html" class="about-link">ABOUT</a>
     </header>
 
@@ -58,7 +65,9 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="nav.js"></script>
     <script src="scriptinternational.js"></script>
 
 </body>

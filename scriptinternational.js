@@ -1,22 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // NAV
-    const logoToggle = document.getElementById("logo-toggle");
-    const navOverlay = document.getElementById("nav-overlay");
-    const navClose = document.getElementById("nav-close");
-
-    logoToggle.addEventListener("click", () => {
-        navOverlay.classList.toggle("is-open");
-    });
-
-    navClose.addEventListener("click", () => {
-        navOverlay.classList.remove("is-open");
-    });
-
     // DADOS
+    // Removido o caminho local (Thumb), agora ele vai puxar a thumbnail padrão do Vimeo
     const videoData = [
-        { id: "1208286427", brand: "American Eagle.", Thumb: "images/international/imagem-01.webp" },
-        { id: "1208286424", brand: "American Eagle.", Thumb: "images/international/imagem-02.webp" }
+        { id: "1208286427", brand: "American Eagle." },
+        { id: "1208286424", brand: "American Eagle." }
     ];
 
     const gallery = document.getElementById("gallery");
@@ -27,7 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const item = document.createElement("div");
         item.classList.add("gallery-item");
 
+        // Se não houver Thumb, usa o vumbnail.com para buscar a capa do Vimeo
         const thumbnailUrl = data.Thumb || `https://vumbnail.com/${data.id}.jpg`;
+        
         const img = document.createElement("img");
         img.src = thumbnailUrl;
         img.alt = data.brand;
