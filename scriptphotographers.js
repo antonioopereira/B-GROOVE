@@ -1,18 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // NAV
-    const logoToggle = document.getElementById("logo-toggle");
-    const navOverlay = document.getElementById("nav-overlay");
-    const navClose = document.getElementById("nav-close");
-
-    logoToggle.addEventListener("click", () => {
-        navOverlay.classList.toggle("is-open");
-    });
-
-    navClose.addEventListener("click", () => {
-        navOverlay.classList.remove("is-open");
-    });
-
     const filterCallout = document.getElementById("filter-callout");
 
     // DADOS DAS FOTOGRAFIAS
@@ -234,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let touchMoved = false;
 
     window.addEventListener("touchstart", (e) => {
-        if (e.target.closest(".logo-container, .nav-overlay, .filters, .site-footer")) return;
+        if (e.target.closest(".logo-toggle-btn, .nav-overlay, .filters, .site-footer")) return;
 
         const t = e.touches[0];
         isTouching = true;

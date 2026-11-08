@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B Groove - Contact</title>
     <link rel="icon" type="image/svg+xml" href="Asset 1.svg">
+    
+    <!-- CSS Global do Menu -->
+    <link rel="stylesheet" href="nav.css">
+    
+    <!-- CSS Específico da Página -->
     <link rel="stylesheet" href="stylecontact.css">
 </head>
 <body>
 
-    <!-- Overlay de Navegação Fullscreen -->
+    <!-- MENU GLOBAL (Overlay) -->
     <div class="nav-overlay" id="nav-overlay">
         <button class="nav-close" id="nav-close" aria-label="Fechar menu">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
@@ -18,7 +23,9 @@
             </svg>
         </button>
         <nav class="nav-content">
-            <a href="index.html">home</a>
+            <a href="index.html" aria-label="Home">
+                <div class="nav-logo"></div>
+            </a>
             <a href="directors.html">directors</a>
             <a href="photographers.html">photographers</a>
             <a href="filmtv.html">film & tv</a>
@@ -29,17 +36,22 @@
         </nav>
     </div>
 
-    <!-- Top Bar -->
+    <!-- Top Bar (Logo Central) -->
     <header class="top-bar">
-        <div class="logo-container" id="logo-toggle">
+        <!-- Elemento vazio para compensar a grelha -->
+        <div></div>
+        
+        <!-- Logo no centro (Abre o menu) -->
+        <button class="logo-toggle-btn" id="logo-toggle" aria-label="Abrir menu">
             <img src="Asset 1.svg" alt="B Groove Logo">
-        </div>
-        <a href="index.html" class="home-link">home</a>
+        </button>
+        
         <a href="us.html" class="about-link">ABOUT</a>
     </header>
 
     <!-- Conteúdo Principal -->
     <main class="contact-content">
+
         <div class="contact-left">
             <h1 class="contact-title">Get in<br>touch.</h1>
             <p class="contact-subtitle">
@@ -48,6 +60,7 @@
         </div>
 
         <div class="contact-right">
+
             <div class="contact-block">
                 <span class="contact-label">Email</span>
                 <a href="mailto:info@bgroove.co" class="contact-link">info@bgroove.co</a>
@@ -62,22 +75,29 @@
                 <span class="contact-label">Localização</span>
                 <span class="contact-link">Lisboa, Portugal</span>
             </div>
+
         </div>
+
     </main>
 
     <!-- Footer -->
     <footer class="site-footer">
-        <div class="footer-left">
-            <div class="text">creative<br>production<br>house.</div>
-            <div class="red-line"></div>
-        </div>
-        <div class="footer-right">
-            <span class="copyright">all rights reserved ©</span>
-        </div>
+        <p class="footer-desc">
+            B Groove - Creative Production House. 2026.
+        </p>
+
+        <a href="https://www.instagram.com/bgroove.co/" target="_blank" rel="noopener" class="footer-instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>@bgroove</span>
+        </a>
     </footer>
 
     <!-- Scripts -->
-    <script src="scriptcontact.js"></script>
+    <script src="nav.js"></script>
 
 </body>
 </html>

@@ -5,11 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B Groove - Home</title>
     <link rel="icon" type="image/svg+xml" href="Asset 1.svg">
+    
+    <!-- CSS Global do Menu -->
+    <link rel="stylesheet" href="nav.css"> 
+    
+    <!-- CSS Específico da Home -->
     <link rel="stylesheet" href="stylehome.css">
 </head>
 <body>
 
-    <!-- Overlay de Navegação Fullscreen -->
+    <!-- MENU GLOBAL (Top Bar com Hambúrguer e Overlay) -->
+    <header class="top-bar">
+        <!-- Botão Hambúrguer (Esquerda) -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+
+        <!-- Link About (Direita) -->
+        <a href="us.html" class="about-link">ABOUT</a>
+    </header>
+
+    <!-- Overlay do Menu -->
     <div class="nav-overlay" id="nav-overlay">
         <button class="nav-close" id="nav-close" aria-label="Fechar menu">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
@@ -18,7 +38,7 @@
             </svg>
         </button>
         <nav class="nav-content">
-            <a href="index.html" class="active">
+            <a href="index.html" class="active" aria-label="Home">
                 <div class="nav-logo"></div>
             </a>
             <a href="directors.html">directors</a>
@@ -31,18 +51,9 @@
         </nav>
     </div>
 
-    <!-- Top Bar (Apenas Hambúrguer e About) -->
-    <header class="top-bar">
-        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </button>
-
-        <a href="us.html" class="about-link">ABOUT</a>
-    </header>
+    <!-- ========================================== -->
+    <!-- CONTEÚDO DA HOME (Intacto)                 -->
+    <!-- ========================================== -->
 
     <!-- Vídeo de fundo Fullscreen -->
     <div class="menu-bg-video" id="menu-bg-video"></div>
@@ -81,6 +92,8 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="nav.js"></script>
     <script src="scripthome.js"></script>
 
 </body>

@@ -1,23 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
-    // NAVEGAÇÃO
-    // ==========================================
-    const logoToggle = document.getElementById("logo-toggle");
-    const navOverlay = document.getElementById("nav-overlay");
-    const navClose = document.getElementById("nav-close");
-
-    logoToggle.addEventListener("click", () => navOverlay.classList.toggle("is-open"));
-    navClose.addEventListener("click", () => navOverlay.classList.remove("is-open"));
-
-    // ==========================================
     // MAPEAMENTO DOS DIRETORES
     // ==========================================
     const directorNames = {
         "andre-chitas": "André Chitas",
         "goncalo-xz": "Gonçalo Xz",
         "ines-monteiro": "Inês Monteiro",
-        "francisco-ramalho": "Francisco Ramalho" // NOVO
+        "francisco-ramalho": "Francisco Ramalho"
     };
 
     // ==========================================
@@ -53,8 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
         { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
         { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" },
-        
-        // NOVOS VÍDEOS - FRANCISCO RAMALHO
         { id: "1242961944", brand: "Memento Mori", title: "", director: "francisco-ramalho" },
         { id: "1242930562", brand: "Silly", title: "", director: "francisco-ramalho" },
         { id: "1242942830", brand: "Plutónio", title: "", director: "francisco-ramalho" },
@@ -116,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
             item.classList.add("carousel-item");
             
             const img = document.createElement("img");
-            // Fallback automático para vumbnail se não houver Thumb customizada
             img.src = video.Thumb || `https://vumbnail.com/${video.id}.jpg`;
             img.classList.add("poster-preview");
             item.appendChild(img);
@@ -237,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // LÓGICA DO CARROSSEL (3 Cartas, Focado no Centro)
+    // LÓGICA DO CARROSSEL
     // ==========================================
     let carouselCurrentScroll = 0;
     let carouselTargetScroll = 0;
@@ -317,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // CLICKS NOS NOMES DOS DIRETORES (MENU INICIAL)
+    // CLICKS NOS NOMES DOS DIRETORES
     // ==========================================
     directorLinks.forEach(link => {
         link.addEventListener("click", (e) => {

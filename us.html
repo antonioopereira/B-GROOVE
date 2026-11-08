@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B Groove - Us.</title>
     <link rel="icon" type="image/svg+xml" href="Asset 1.svg">
+    
+    <!-- CSS Global do Menu -->
+    <link rel="stylesheet" href="nav.css">
+    
+    <!-- CSS Específico da Página -->
     <link rel="stylesheet" href="styleus.css">
 </head>
 <body>
 
-    <!-- Overlay de Navegação Fullscreen -->
+    <!-- MENU GLOBAL (Overlay) -->
     <div class="nav-overlay" id="nav-overlay">
         <button class="nav-close" id="nav-close" aria-label="Fechar menu">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
@@ -18,7 +23,9 @@
             </svg>
         </button>
         <nav class="nav-content">
-            <a href="index.html">home</a>
+            <a href="index.html" aria-label="Home">
+                <div class="nav-logo"></div>
+            </a>
             <a href="directors.html">directors</a>
             <a href="photographers.html">photographers</a>
             <a href="filmtv.html">film & tv</a>
@@ -29,12 +36,16 @@
         </nav>
     </div>
 
-    <!-- Top Bar -->
+    <!-- Top Bar (Logo ao centro) -->
     <header class="top-bar">
-        <div class="logo-container" id="logo-toggle">
+        <!-- Elemento vazio para compensar a grelha do lado esquerdo -->
+        <div></div>
+        
+        <!-- Logo no centro (Abre o menu) -->
+        <button class="logo-toggle-btn" id="logo-toggle" aria-label="Abrir menu">
             <img src="Asset 1.svg" alt="B Groove Logo">
-        </div>
-        <a href="index.html" class="home-link">home</a>
+        </button>
+        
         <a href="us.html" class="about-link">ABOUT</a>
     </header>
 
@@ -67,7 +78,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="scriptus.js"></script>
+    <script src="nav.js"></script>
 
 </body>
 </html>

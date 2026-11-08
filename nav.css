@@ -1,0 +1,87 @@
+/* ==========================================================================
+   NAVEGAÇÃO GLOBAL (APLICAR EM TODAS AS PÁGINAS)
+   ========================================================================== */
+
+/* Overlay escuro com opacidade */
+.nav-overlay {
+    position: fixed; 
+    inset: 0; 
+    background: rgba(0, 0, 0, 0.65); /* Preto com transparência */
+    backdrop-filter: blur(8px); /* Desfoque para ver a página por trás */
+    -webkit-backdrop-filter: blur(8px);
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    opacity: 0; 
+    pointer-events: none; 
+    visibility: hidden;
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s; 
+    z-index: 9999;
+}
+
+.nav-overlay.is-open { 
+    opacity: 1; 
+    pointer-events: auto; 
+    visibility: visible; 
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s; 
+}
+
+/* Conteúdo (Lista de Links) */
+.nav-content { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    text-align: center; 
+}
+
+.nav-content a { 
+    font-family: 'General Sans', sans-serif; 
+    font-weight: 400; 
+    color: #ffffff; /* Texto branco */
+    text-decoration: none; 
+    font-size: 24px; 
+    opacity: 0.6; 
+    transition: opacity 0.3s ease; 
+}
+
+.nav-content a:hover, 
+.nav-content a.active { 
+    opacity: 1; 
+}
+
+/* Logo dentro do menu (Branca via máscara CSS) */
+.nav-content a .nav-logo {
+    height: 40px;
+    width: 40px; 
+    margin: 0 auto 10px auto;
+    display: block;
+    background-color: #ffffff; /* Cor exata da logo */
+    
+    -webkit-mask-image: url('Asset 1.svg');
+    mask-image: url('Asset 1.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+/* Botão de fechar */
+.nav-close { 
+    position: absolute; 
+    top: 40px; 
+    right: 50px; 
+    background: none; 
+    border: none; 
+    color: #ffffff; /* Cor branca */
+    cursor: pointer; 
+    padding: 8px; 
+    opacity: 0.5; 
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+
+.nav-close:hover { 
+    opacity: 1; 
+    transform: rotate(90deg); 
+}

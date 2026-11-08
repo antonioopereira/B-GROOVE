@@ -1,16 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
-    // NAVEGAÇÃO
-    // ==========================================
-    const menuToggle = document.getElementById("menu-toggle");
-    const navOverlay = document.getElementById("nav-overlay");
-    const navClose = document.getElementById("nav-close");
-
-    menuToggle.addEventListener("click", () => navOverlay.classList.add("is-open"));
-    navClose.addEventListener("click", () => navOverlay.classList.remove("is-open"));
-
-    // ==========================================
     // MAPEAMENTO DOS DIRETORES
     // ==========================================
     const directorNames = {
@@ -85,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const dirName = directorNames[video.director] || video.director;
         
-        // Adicionado o "Dir." de volta
         mainDirName.innerHTML = `Dir.<br>${dirName}`;
         mainBrandName.innerText = video.brand;
     }
@@ -102,7 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.addEventListener("keydown", (e) => {
-        if (navOverlay.classList.contains("is-open")) return; 
+        // Verifica se o menu está aberto para não mudar de vídeo enquanto navega no menu
+        const navOverlay = document.getElementById("nav-overlay");
+        if (navOverlay && navOverlay.classList.contains("is-open")) return; 
         
         if (e.key === "ArrowLeft") prevBtn.click();
         if (e.key === "ArrowRight") nextBtn.click();

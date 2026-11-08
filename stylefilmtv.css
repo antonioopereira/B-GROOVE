@@ -17,9 +17,9 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #eae9dc; /* NOVO FUNDO */
+    background-color: #eae9dc;
     font-family: 'General Sans', sans-serif;
-    color: #bb0000; /* NOVA COR DE TEXTO */
+    color: #bb0000;
     user-select: none;
     overscroll-behavior: none;
 }
@@ -42,10 +42,9 @@ html, body {
 }
 
 .logo-container img {
-    height: 60px;
+    height: 40px;
     width: auto;
     display: block;
-    /* Filtro para tornar a logo vermelha */
     filter: brightness(0) saturate(100%) invert(9%) sepia(80%) saturate(5000%) hue-rotate(345deg) brightness(85%) contrast(110%);
     opacity: 1;
 }
@@ -59,7 +58,7 @@ html, body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(234, 233, 220, 0.92); /* Fundo creme transparente */
+    background: rgba(234, 233, 220, 0.92);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -85,7 +84,7 @@ html, body {
 .nav-content a {
     font-family: 'General Sans', sans-serif;
     font-weight: 400;
-    color: #bb0000; /* Texto vermelho */
+    color: #bb0000;
     text-decoration: none;
     font-size: 24px;
     letter-spacing: 0.5px;
@@ -100,7 +99,6 @@ html, body {
     transform: scale(1.05);
 }
 
-/* ---- Botão de fechar ---- */
 .nav-close {
     position: absolute;
     top: 40px;
@@ -124,7 +122,6 @@ html, body {
     display: block;
 }
 
-
 /* ==========================================================================
    2. HEADER DA PÁGINA
    ========================================================================== */
@@ -139,22 +136,12 @@ html, body {
 
 .page-title {
     font-family: 'Harmattan', sans-serif;
-    position:top;
+    position: top;
     font-size: 64px;
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.02em;
-    color: #bb0000; /* Título vermelho */
-}
-
-.page-subtitle {
-    font-family: 'General Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
     color: #bb0000;
-    opacity: 0.6;
-    margin-top: 12px;
 }
 
 /* ==========================================================================
@@ -226,7 +213,7 @@ html, body {
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: #eae9dc; /* Mantém-se claro para ler sobre a imagem escura */
+    color: #eae9dc;
     margin-bottom: 4px;
 }
 
@@ -241,133 +228,25 @@ html, body {
 }
 
 /* ==========================================================================
-   4. FOOTER
+   4. FOOTER (CORRIGIDO)
    ========================================================================== */
-.site-footer {
-    position: fixed;
-    bottom: 30px;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
-    pointer-events: none;
-    opacity: 0.6;
-    transition: opacity 0.4s ease;
+.site-footer { 
+    position: fixed; bottom: 30px; left: 0; width: 100%; padding: 0 40px; 
+    display: flex; justify-content: space-between; align-items: flex-end; /* Alinhamento corrigido */
+    z-index: 100; pointer-events: none; 
 }
 
-.site-footer:hover {
-    opacity: 1;
+.footer-left { display: flex; align-items: flex-end; gap: 15px; pointer-events: auto; }
+.footer-left .text { 
+    font-family: 'General Sans', sans-serif; font-size: 12px; line-height: 1.1; text-transform: lowercase; 
+    letter-spacing: 0.2px; margin-bottom: 2px; color: #bb0000; 
 }
-
-.site-footer * {
-    pointer-events: auto;
-}
-
-.footer-desc {
-    font-family: 'General Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: #bb0000;
-    max-width: 380px;
-}
-
-.footer-instagram {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'General Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #bb0000;
-    text-decoration: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.footer-instagram:hover {
-    transform: translateY(-2px);
-    opacity: 0.8;
-}
-
-.footer-instagram svg {
-    display: block;
-}
+.red-line { width: 60px; height: 1.5px; background-color: #bb0000; margin-bottom: 10px; }
+.footer-right { pointer-events: auto; }
+.copyright { font-family: 'General Sans', sans-serif; font-size: 12px; opacity: 0.8; color: #bb0000; }
 
 /* ==========================================================================
-   5. RESPONSIVO — MOBILE
-   ========================================================================== */
-@media (max-width: 768px) {
-    :root {
-        --poster-w: 180px;
-        --poster-h: 270px;
-    }
-
-    .logo-container {
-        top: 20px;
-    }
-
-    .logo-container img {
-        height: 42px;
-    }
-
-    .nav-close {
-        top: 20px;
-        right: 20px;
-    }
-
-    .nav-content a {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    .page-header {
-        top: 100px;
-        left: 25px;
-        right: 25px;
-        max-width: none;
-    }
-
-    .page-title {
-        font-size: 3rem;
-    }
-
-    .page-subtitle {
-        font-size: 12px;
-        margin-top: 8px;
-    }
-
-    .poster-info {
-        padding: 40px 12px 14px;
-    }
-
-    .poster-title {
-        font-size: 12px;
-    }
-
-    .poster-meta {
-        font-size: 9px;
-    }
-
-    .site-footer {
-        bottom: 15px;
-        flex-direction: column;
-        gap: 8px;
-        padding: 0 20px;
-        text-align: center;
-    }
-
-    .footer-desc,
-    .footer-instagram {
-        font-size: 11px;
-    }
-}
-
-/* ==========================================================================
-   7. MODAL DE DETALHES DO FILME
+   5. MODAL DE DETALHES DO FILME
    ========================================================================== */
 .modal {
     position: fixed;
@@ -390,7 +269,7 @@ html, body {
 .modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(234, 233, 220, 0.85); /* Fundo do modal creme transparente */
+    background: rgba(234, 233, 220, 0.85);
     backdrop-filter: blur(12px);
     cursor: pointer;
 }
@@ -406,26 +285,17 @@ html, body {
     padding: 60px 60px 50px;
     transform: translateY(20px);
     transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15); /* Sombra ajustada para fundo claro */
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
 }
 
 .modal.is-open .modal-content {
     transform: translateY(0);
 }
 
-/* Scrollbar minimalista do modal */
-.modal-content::-webkit-scrollbar {
-    width: 4px;
-}
-.modal-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-.modal-content::-webkit-scrollbar-thumb {
-    background: rgba(187, 0, 0, 0.2);
-    border-radius: 2px;
-}
+.modal-content::-webkit-scrollbar { width: 4px; }
+.modal-content::-webkit-scrollbar-track { background: transparent; }
+.modal-content::-webkit-scrollbar-thumb { background: rgba(187, 0, 0, 0.2); border-radius: 2px; }
 
-/* Botão fechar */
 .modal-close {
     position: absolute;
     top: 20px;
@@ -445,7 +315,6 @@ html, body {
     transform: rotate(90deg);
 }
 
-/* Título */
 .modal-title {
     font-family: 'Harmattan', sans-serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -456,7 +325,6 @@ html, body {
     margin-bottom: 16px;
 }
 
-/* Meta informações */
 .modal-meta {
     font-family: 'General Sans', sans-serif;
     font-size: 12px;
@@ -469,7 +337,6 @@ html, body {
     line-height: 1.6;
 }
 
-/* Sinopse */
 .modal-synopsis {
     font-family: 'General Sans', sans-serif;
     font-size: 15px;
@@ -480,7 +347,6 @@ html, body {
     margin-bottom: 32px;
 }
 
-/* Blocos de informação (direção, elenco, etc.) */
 .modal-info {
     display: flex;
     flex-direction: column;
@@ -514,7 +380,6 @@ html, body {
     opacity: 0.9;
 }
 
-/* Notas / conquistas */
 .modal-notes {
     margin-top: 24px;
     padding-top: 24px;
@@ -542,153 +407,50 @@ html, body {
     opacity: 0.5;
 }
 
-/* Responsivo do modal */
-@media (max-width: 768px) {
-    .modal {
-        padding: 20px;
-    }
-
-    .modal-content {
-        padding: 50px 30px 40px;
-    }
-
-    .modal-close {
-        top: 12px;
-        right: 12px;
-    }
-
-    .modal-meta {
-        font-size: 11px;
-        margin-bottom: 24px;
-    }
-
-    .modal-synopsis {
-        font-size: 14px;
-        margin-bottom: 24px;
-    }
-}
-
+/* ==========================================================================
+   6. RESPONSIVO (MOBILE) - CORRIGIDO
+   ========================================================================== */
 @media (max-width: 768px) {
     :root {
-        --poster-w: 140px;
-        --poster-h: 210px;
+        --poster-w: 180px;
+        --poster-h: 270px;
     }
 
-    /* Título no topo */
+    .logo-container { top: 20px; }
+    .logo-container img { height: 42px; }
+
+    .nav-close { top: 20px; right: 20px; }
+    .nav-content a { font-size: 1.5rem; letter-spacing: 1px; }
+
     .page-header {
-        top: 80px;
+        top: 100px;
         left: 25px;
         right: 25px;
         max-width: none;
     }
+    .page-title { font-size: 3rem; }
 
-    .page-title {
-        font-size: 2.2rem;
+    .poster-info { padding: 40px 12px 14px; }
+    .poster-title { font-size: 12px; }
+    .poster-meta { font-size: 9px; }
+
+    /* Footer Mobile */
+    .site-footer {
+        bottom: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 0 20px;
     }
+    .footer-left .text, .copyright { font-size: 10px; }
+    .red-line { width: 40px; }
 
-    .page-subtitle {
-        font-size: 11px;
-        margin-top: 6px;
-    }
-
-    /* Logo */
-    .logo-container {
-        top: 20px;
-    }
-
-    .logo-container img {
-        height: 42px;
-    }
-
-    /* Nav */
-    .nav-close {
-        top: 20px;
-        right: 20px;
-    }
-
-    .nav-content a {
-        font-size: 1.5rem;
-        letter-spacing: 1px;
-    }
-
-    /* Modal */
-    .modal {
-        padding: 15px;
-    }
-
-    .modal-content {
-        padding: 50px 25px 35px;
-        max-height: 85vh;
-    }
-
-    .modal-title {
-        font-size: 2rem;
-    }
-
-    .modal-meta {
-        font-size: 10px;
-        margin-bottom: 20px;
-    }
-
-    .modal-synopsis {
-        font-size: 13px;
-        margin-bottom: 20px;
-        line-height: 1.65;
-    }
-
-    .modal-info-value {
-        font-size: 13px;
-    }
-
-   /* ==========================================================================
-   4. FOOTER
-   ========================================================================== */
-.site-footer {
-    position: fixed;
-    bottom: 30px;
-    left: 0;
-    width: 100%;
-    padding: 0 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    z-index: 100;
-    pointer-events: none;
-}
-
-.footer-left {
-    display: flex;
-    align-items: flex-end;
-    gap: 15px;
-    pointer-events: auto;
-}
-
-.footer-left .text {
-    font-family: 'General Sans', sans-serif;
-    font-size: 12px;
-    line-height: 1.1;
-    text-transform: lowercase;
-    letter-spacing: 0.2px;
-    margin-bottom: 2px;
-    color: #bb0000;
-}
-
-.red-line {
-    width: 60px;
-    height: 1.5px;
-    background-color: #bb0000;
-    margin-bottom: 10px;
-}
-
-.footer-right {
-    pointer-events: auto;
-}
-
-.copyright {
-    font-family: 'General Sans', sans-serif;
-    font-size: 12px;
-    opacity: 0.8;
-    color: #bb0000;
-}
-
+    /* Modal Mobile */
+    .modal { padding: 15px; }
+    .modal-content { padding: 50px 25px 35px; max-height: 85vh; }
+    .modal-close { top: 12px; right: 12px; }
+    .modal-title { font-size: 2rem; }
+    .modal-meta { font-size: 10px; margin-bottom: 20px; }
+    .modal-synopsis { font-size: 13px; margin-bottom: 20px; line-height: 1.65; }
+    .modal-info-value { font-size: 13px; }
 }
