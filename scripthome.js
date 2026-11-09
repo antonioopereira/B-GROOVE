@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1064109149", brand: "GRANADA", title: "From the Heart", director: "andre-chitas" },
         { id: "951206473",  brand: "CCXP", title: "Worlds", director: "andre-chitas" },
         { id: "1075350120", brand: "GRANADA", title: "My Girl", director: "andre-chitas" },
-        { id: "1220816532", brand: "Profjam", title: "Dakar", director: "goncalo-xz" },
+        { id: "1220816532", brand: "FTP", title: "Dakar", director: "goncalo-xz" },
         { id: "1220821289", brand: "Profjam", title: "Dakar", director: "goncalo-xz" },
         { id: "1231972605", brand: "Realm", title: "Opo", director: "goncalo-xz" },
         { id: "1220828316", brand: "Conan Osíris", title: "Moleirinha", director: "goncalo-xz" },
@@ -44,6 +44,20 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro" },
         { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro" }
     ];
+
+    // ==========================================
+    // NOVO: FUNÇÃO PARA BARALHAR OS VÍDEOS
+    // ==========================================
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
+        }
+        return array;
+    }
+
+    // Baralha a lista de vídeos antes de iniciar
+    shuffleArray(videoData);
 
     // ==========================================
     // ELEMENTOS
@@ -99,11 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "ArrowRight") nextBtn.click();
     });
 
-    // Inicia a página com o primeiro vídeo
+    // Inicia a página com o primeiro vídeo (que já está aleatório)
     updateHomeVideo(0);
 
     // ==========================================
-    // PLAYER FULLSCREEN (NOVO)
+    // PLAYER FULLSCREEN (MODAL)
     // ==========================================
     const videoModal = document.getElementById("video-modal");
     const videoModalWrapper = document.getElementById("video-modal-wrapper");
@@ -115,23 +129,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!videoData[currentVideoIndex]) return;
         const videoId = videoData[currentVideoIndex].id;
         
-        // Cria o iframe com som e controlos
         videoModalWrapper.innerHTML = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&controls=1" allow="autoplay; fullscreen; picture-in-picture" frameborder="0" allowfullscreen></iframe>`;
         videoModal.classList.add("is-open");
     }
 
     function closeFullscreenVideo() {
-        videoModalWrapper.innerHTML = ""; // Para o vídeo
+        videoModalWrapper.innerHTML = ""; 
         videoModal.classList.remove("is-open");
     }
 
-    // Abre ao clicar no fundo
     videoClickOverlay.addEventListener("click", openFullscreenVideo);
     
-    // Abre ao clicar no título
-    videoInfoCenter.addEventListener("click", openFullscreenVideo);
+    if(videoInfoCenter) {
+        videoInfoCenter.addEventListener("click", openFullscreenVideo);
+    }
     
-    // Fecha
     videoModalClose.addEventListener("click", closeFullscreenVideo);
     videoModal.addEventListener("click", (e) => {
         if (e.target === videoModal || e.target === videoModalWrapper) {
