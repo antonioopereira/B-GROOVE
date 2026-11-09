@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const directorNames = {
         "andre-chitas": "André Chitas",
         "goncalo-xz": "Gonçalo Xz",
-        "ines-monteiro": "Inês Monteiro"
+        "ines-monteiro": "Inês Monteiro",
+        "francisco-ramalho": "Francisco Ramalho"
     };
 
     // ==========================================
@@ -91,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.addEventListener("keydown", (e) => {
-        // Verifica se o menu está aberto para não mudar de vídeo enquanto navega no menu
         const navOverlay = document.getElementById("nav-overlay");
         if (navOverlay && navOverlay.classList.contains("is-open")) return; 
         
@@ -101,5 +101,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Inicia a página com o primeiro vídeo
     updateHomeVideo(0);
+
+    // ==========================================
+    // PLAYER FULLSCREEN (NOVO)
+    // ==========================================
+    const videoModal = document.getElementById("video-modal");
+    const videoModalWrapper = document.getElementById("video-modal-wrapper");
+    const videoModalClose = document.getElementById("video-modal-close");
+    const videoClickOverlay = document.getElementById("video-click-overlay");
+    const videoInfoCenter = document.getElementById("video-info-center");
+
+    function openFullscreenVideo() {
+        if (!videoData[currentVideoIndex]) return;
+        const videoId = videoData[currentVideoIndex].id;
+        
+        // Cria o iframe com som e controlos
+        videoModalWrapper.innerHTML = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&controls=1" allow="autoplay; fullscreen; picture-in-picture" frameborder="0" allowfullscreen></iframe>`;
+        videoModal.classList.add("is-open");
+    }
+
+    function closeFullscreenVideo() {
+        videoModalWrapper.innerHTML = ""; // Para o vídeo
+        videoModal.classList.remove("is-open");
+    }
+
+    // Abre ao clicar no fundo
+    videoClickOverlay.addEventListener("click", openFullscreenVideo);
+    
+    // Abre ao clicar no título
+    videoInfoCenter.addEventListener("click", openFullscreenVideo);
+    
+    // Fecha
+    videoModalClose.addEventListener("click", closeFullscreenVideo);
+    videoModal.addEventListener("click", (e) => {
+        if (e.target === videoModal || e.target === videoModalWrapper) {
+            closeFullscreenVideo();
+        }
+    });
 
 });

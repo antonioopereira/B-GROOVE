@@ -1,120 +1,102 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // DADOS
-    // Removido o caminho local (Thumb), agora ele vai puxar a thumbnail padrão do Vimeo
+    // ==========================================
+    // DADOS DOS VÍDEOS (INTERNATIONAL)
+    // ==========================================
     const videoData = [
         { id: "1208286427", brand: "American Eagle." },
         { id: "1208286424", brand: "American Eagle." }
     ];
 
-    const gallery = document.getElementById("gallery");
-    const items = [];
+    // ==========================================
+    // ELEMENTOS
+    // ==========================================
+    const menuBgVideo = document.getElementById("menu-bg-video");
+    const mainBrandName = document.getElementById("main-brand-name");
+    
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
 
-    // CRIAÇÃO DOS ITENS
-    videoData.forEach((data) => {
-        const item = document.createElement("div");
-        item.classList.add("gallery-item");
+    let currentVideoIndex = 0;
 
-        // Se não houver Thumb, usa o vumbnail.com para buscar a capa do Vimeo
-        const thumbnailUrl = data.Thumb || `https://vumbnail.com/${data.id}.jpg`;
+    // ==========================================
+    // LÓGICA DE NAVEGAÇÃO DE VÍDEO (SLIDES)
+    // ==========================================
+    function updateInternationalVideo(index) {
+        if (index < 0) index = videoData.length - 1;
+        if (index >= videoData.length) index = 0;
         
-        const img = document.createElement("img");
-        img.src = thumbnailUrl;
-        img.alt = data.brand;
-        img.classList.add("poster-preview");
-        img.onerror = () => {
-            console.error("❌ Falhou miniatura:", thumbnailUrl);
-            img.style.background = "#222";
-        };
-        item.appendChild(img);
+        currentVideoIndex = index;
+        const video = videoData[index];
 
-        const wrapper = document.createElement("div");
-        wrapper.classList.add("video-wrapper");
-
+        // Carrega o vídeo de fundo (mudo)
+        menuBgVideo.innerHTML = ""; 
         const iframe = document.createElement("iframe");
-        iframe.src = `https://player.vimeo.com/video/${data.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0&autopause=0`;
+        iframe.src = `https://player.vimeo.com/video/${video.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
-        iframe.setAttribute("allowfullscreen", "");
-        iframe.setAttribute("loading", "lazy");
+        menuBgVideo.appendChild(iframe);
 
-        wrapper.appendChild(iframe);
-        item.appendChild(wrapper);
-
-        // Título (Apenas a marca)
-        const titleEl = document.createElement("div");
-        titleEl.classList.add("video-title");
-        titleEl.innerHTML = `<span class="title-brand">${data.brand}</span>`;
-        item.appendChild(titleEl);
-
-        // Hover
-        item.addEventListener("mouseenter", () => {
-            gsap.to(wrapper, { opacity: 1, duration: 0.4, ease: "power2.out" });
-        });
-
-        item.addEventListener("mouseleave", () => {
-            gsap.to(wrapper, { opacity: 0, duration: 0.3, ease: "power2.in" });
-        });
-
-        gallery.appendChild(item);
-        items.push({ element: item });
-    });
-
-    // LAYOUT
-    const RATIO = 16 / 9;
-
-    function layout() {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-
-        // ---------- MOBILE ----------
-        if (vw <= 768) {
-            const mobileW = vw * 0.9;
-            const mobileH = mobileW / RATIO;
-            const gapY = 60;
-            const padTop = 180;
-            const totalH = padTop + items.length * mobileH + (items.length - 1) * gapY + 120;
-
-            gallery.style.width = vw + "px";
-            gallery.style.height = totalH + "px";
-
-            items.forEach((it, i) => {
-                const x = (vw - mobileW) / 2;
-                const y = padTop + i * (mobileH + gapY);
-                it.element.style.left = x + "px";
-                it.element.style.top = y + "px";
-                it.element.style.width = mobileW + "px";
-                it.element.style.height = mobileH + "px";
-            });
-        }
-
-        // ---------- DESKTOP ----------
-        else {
-            const gapX = vw * 0.04;
-            const totalGap = gapX * (items.length - 1);
-
-            const maxWByWidth = (vw * 0.88 - totalGap) / items.length;
-            const maxWByHeight = vh * 0.75 * RATIO;
-            const itemW = Math.min(maxWByWidth, maxWByHeight);
-            const itemH = itemW / RATIO;
-
-            const totalW = items.length * itemW + totalGap;
-            const startX = (vw - totalW) / 2;
-            const startY = (vh - itemH) / 2;
-
-            gallery.style.width = vw + "px";
-            gallery.style.height = vh + "px";
-
-            items.forEach((it, i) => {
-                it.element.style.left = (startX + i * (itemW + gapX)) + "px";
-                it.element.style.top = startY + "px";
-                it.element.style.width = itemW + "px";
-                it.element.style.height = itemH + "px";
-            });
-        }
+        // Atualiza o texto central
+        mainBrandName.innerText = video.brand;
     }
 
-    layout();
-    window.addEventListener("resize", layout);
+    // ==========================================
+    // EVENTOS DAS SETAS E TECLADO
+    // ==========================================
+    prevBtn.addEventListener("click", () => {
+        updateInternationalVideo(currentVideoIndex - 1);
+    });
+
+    nextBtn.addEventListener("click", () => {
+        updateInternationalVideo(currentVideoIndex + 1);
+    });
+
+    window.addEventListener("keydown", (e) => {
+        const navOverlay = document.getElementById("nav-overlay");
+        if (navOverlay && navOverlay.classList.contains("is-open")) return; 
+        
+        if (e.key === "ArrowLeft") prevBtn.click();
+        if (e.key === "ArrowRight") nextBtn.click();
+    });
+
+    // Inicia a página com o primeiro vídeo
+    updateInternationalVideo(0);
+
+    // ==========================================
+    // PLAYER FULLSCREEN (MODAL)
+    // ==========================================
+    const videoModal = document.getElementById("video-modal");
+    const videoModalWrapper = document.getElementById("video-modal-wrapper");
+    const videoModalClose = document.getElementById("video-modal-close");
+    const videoClickOverlay = document.getElementById("video-click-overlay");
+    const videoInfoCenter = document.getElementById("video-info-center");
+
+    function openFullscreenVideo() {
+        if (!videoData[currentVideoIndex]) return;
+        const videoId = videoData[currentVideoIndex].id;
+        
+        // Cria o iframe com som e controlos
+        videoModalWrapper.innerHTML = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&controls=1" allow="autoplay; fullscreen; picture-in-picture" frameborder="0" allowfullscreen></iframe>`;
+        videoModal.classList.add("is-open");
+    }
+
+    function closeFullscreenVideo() {
+        videoModalWrapper.innerHTML = ""; 
+        videoModal.classList.remove("is-open");
+    }
+
+    videoClickOverlay.addEventListener("click", openFullscreenVideo);
+    
+    if(videoInfoCenter) {
+        videoInfoCenter.addEventListener("click", openFullscreenVideo);
+    }
+    
+    videoModalClose.addEventListener("click", closeFullscreenVideo);
+    videoModal.addEventListener("click", (e) => {
+        if (e.target === videoModal || e.target === videoModalWrapper) {
+            closeFullscreenVideo();
+        }
+    });
 
 });

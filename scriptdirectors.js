@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1064109149", brand: "GRANADA", title: "From the Heart", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-08.webp" },
         { id: "951206473",  brand: "CCXP", title: "Worlds", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
         { id: "1075350120", brand: "GRANADA", title: "My Girl", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
-        { id: "1220816532", brand: "Profjam", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
+
+        { id: "1220816532", brand: "FTP", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
         { id: "1220821289", brand: "Profjam", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-14.webp" },
         { id: "1231972605", brand: "Realm", title: "Opo", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-a.webp" },
         { id: "1220828316", brand: "Conan Osíris", title: "Moleirinha", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-17.webp" },
@@ -37,12 +38,15 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1220835706", brand: "SlowJ", title: "Where u @", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
         { id: "1220831743", brand: "Project x", title: "Ghuettop", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
         { id: "1231970990", brand: "Raissa", title: "Pensas em Mim", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-c.webp" },
+
         { id: "1228567548", brand: "Mar", title: "Sem Carta", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
         { id: "1229123992", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
         { id: "1229125856", brand: "Kasha feat. Mar", title: "Livro Aberto", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
         { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
         { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
         { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" },
+        
+        // FRANCISCO RAMALHO
         { id: "1242961944", brand: "Memento Mori", title: "", director: "francisco-ramalho" },
         { id: "1242930562", brand: "Silly", title: "", director: "francisco-ramalho" },
         { id: "1242942830", brand: "Plutónio", title: "", director: "francisco-ramalho" },
@@ -312,6 +316,41 @@ document.addEventListener("DOMContentLoaded", () => {
             const directorId = link.dataset.director;
             startDirectorView(directorId);
         });
+    });
+
+    // ==========================================
+    // PLAYER FULLSCREEN (NOVO)
+    // ==========================================
+    const videoModal = document.getElementById("video-modal");
+    const videoModalWrapper = document.getElementById("video-modal-wrapper");
+    const videoModalClose = document.getElementById("video-modal-close");
+    const videoClickOverlay = document.getElementById("video-click-overlay");
+    const videoInfoCenter = document.getElementById("video-info-center");
+
+    function openFullscreenVideo() {
+        if (!currentDirectorVideos[currentVideoIndex]) return;
+        const videoId = currentDirectorVideos[currentVideoIndex].id;
+        
+        videoModalWrapper.innerHTML = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&controls=1" allow="autoplay; fullscreen; picture-in-picture" frameborder="0" allowfullscreen></iframe>`;
+        videoModal.classList.add("is-open");
+    }
+
+    function closeFullscreenVideo() {
+        videoModalWrapper.innerHTML = ""; 
+        videoModal.classList.remove("is-open");
+    }
+
+    videoClickOverlay.addEventListener("click", openFullscreenVideo);
+    
+    if(videoInfoCenter) {
+        videoInfoCenter.addEventListener("click", openFullscreenVideo);
+    }
+    
+    videoModalClose.addEventListener("click", closeFullscreenVideo);
+    videoModal.addEventListener("click", (e) => {
+        if (e.target === videoModal || e.target === videoModalWrapper) {
+            closeFullscreenVideo();
+        }
     });
 
 });

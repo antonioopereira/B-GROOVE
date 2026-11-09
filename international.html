@@ -38,20 +38,39 @@
 
     <!-- Top Bar (Logo ao centro) -->
     <header class="top-bar">
-        <!-- Elemento vazio para compensar a grelha -->
         <div></div>
-
-        <!-- Logo no centro (Abre o menu) -->
         <button class="logo-toggle-btn" id="logo-toggle" aria-label="Abrir menu">
             <img src="Asset 1.svg" alt="B Groove Logo">
         </button>
-        
         <a href="us.html" class="about-link">ABOUT</a>
     </header>
 
-    <!-- Galeria (Centrada) -->
-    <div class="gallery-container">
-        <div class="gallery" id="gallery"></div>
+    <!-- Vídeo de fundo Fullscreen -->
+    <div class="menu-bg-video" id="menu-bg-video"></div>
+
+    <!-- CAMADA DE CLIQUE NO FUNDO -->
+    <div class="video-click-overlay" id="video-click-overlay"></div>
+
+    <!-- Setas de Navegação do Vídeo -->
+    <button class="nav-arrow left-arrow" id="prev-btn">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    </button>
+    
+    <button class="nav-arrow right-arrow" id="next-btn">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+    </button>
+
+    <!-- Callouts Laterais -->
+    <div class="side-callout left">Living is dangerous,</div>
+    <div class="side-callout right">call a friend.</div>
+
+    <!-- Informação Central (Clicável) -->
+    <div class="video-info-center" id="video-info-center">
+        <div class="brand-name" id="main-brand-name">American Eagle.</div>
     </div>
 
     <!-- Footer -->
@@ -65,8 +84,18 @@
         </div>
     </footer>
 
+    <!-- PLAYER FULLSCREEN (MODAL) -->
+    <div id="video-modal" class="video-modal">
+        <button class="video-modal-close" id="video-modal-close" aria-label="Fechar vídeo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+            </svg>
+        </button>
+        <div class="video-modal-wrapper" id="video-modal-wrapper"></div>
+    </div>
+
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="nav.js"></script>
     <script src="scriptinternational.js"></script>
 

@@ -19,7 +19,7 @@ html, body {
 }
 
 /* ==========================================================================
-   TOP BAR (Específico para manter a logo centrada)
+   TOP BAR
    ========================================================================== */
 .top-bar {
     position: fixed; top: 0; left: 0; width: 100%; padding: 30px 40px;
@@ -50,9 +50,7 @@ html, body {
     transition: transform 0.3s ease;
 }
 .logo-toggle-btn:hover { transform: scale(1.05); }
-
-/* A imagem da logo é tratada pelo nav.css, mas garantimos que o tamanho se mantém */
-.logo-toggle-btn img { height: 35px; width: auto; display: block; }
+.logo-toggle-btn img { height: 35px; width: auto; display: block; filter: brightness(0) invert(1); }
 
 .about-link { 
     justify-self: end;
@@ -107,16 +105,19 @@ html, body {
 .video-info-center { 
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
     text-align: center; color: #ffffff; z-index: 10; display: flex; flex-direction: column; 
-    align-items: center; pointer-events: none; width: 90%; 
+    align-items: center; width: 90%; 
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .video-info-center .dir-name { 
     font-family: 'General Sans', sans-serif !important; 
     font-size: clamp(1rem, 1.5vw, 1.4rem);
-    font-weight: 400; /* Alterado para regular */
+    font-weight: 400; 
     line-height: 1; 
     margin-bottom: 6px; 
     opacity: 0.95;
+    transition: opacity 0.3s ease;
 }
 
 .video-info-center .brand-name { 
@@ -125,6 +126,12 @@ html, body {
     font-weight: 700; 
     line-height: 0.9; 
     letter-spacing: -0.02em; 
+    transition: opacity 0.3s ease;
+}
+
+.video-info-center:hover .dir-name,
+.video-info-center:hover .brand-name {
+    opacity: 0.7;
 }
 
 /* ==========================================================================
@@ -157,3 +164,59 @@ html, body {
 .red-line { width: 60px; height: 1.5px; background-color: #ffffff; margin-bottom: 10px; }
 .footer-right { pointer-events: auto; }
 .copyright { font-family: 'General Sans', sans-serif; font-size: 12px; opacity: 0.8; color: #ffffff; }
+
+/* ==========================================================================
+   PLAYER FULLSCREEN (MODAL) - NOVO
+   ========================================================================== */
+.video-click-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5; 
+    cursor: pointer;
+}
+
+.video-modal {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-modal.is-open {
+    display: flex;
+    opacity: 1;
+}
+
+.video-modal-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.video-modal-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.video-modal-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    z-index: 100000;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.video-modal-close:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}

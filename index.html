@@ -14,9 +14,8 @@
 </head>
 <body>
 
-    <!-- MENU GLOBAL (Top Bar com Hambúrguer e Overlay) -->
+    <!-- MENU GLOBAL (Top Bar com Hambúrguer) -->
     <header class="top-bar">
-        <!-- Botão Hambúrguer (Esquerda) -->
         <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -25,7 +24,6 @@
             </svg>
         </button>
 
-        <!-- Link About (Direita) -->
         <a href="us.html" class="about-link">ABOUT</a>
     </header>
 
@@ -51,12 +49,11 @@
         </nav>
     </div>
 
-    <!-- ========================================== -->
-    <!-- CONTEÚDO DA HOME (Intacto)                 -->
-    <!-- ========================================== -->
-
     <!-- Vídeo de fundo Fullscreen -->
     <div class="menu-bg-video" id="menu-bg-video"></div>
+
+    <!-- CAMADA DE CLIQUE NO FUNDO -->
+    <div class="video-click-overlay" id="video-click-overlay"></div>
 
     <!-- Setas de Navegação do Vídeo -->
     <button class="nav-arrow left-arrow" id="prev-btn">
@@ -75,8 +72,8 @@
     <div class="side-callout left">Living is dangerous,</div>
     <div class="side-callout right">call a friend.</div>
 
-    <!-- Informação Central -->
-    <div class="video-info-center">
+    <!-- Informação Central (Clicável) -->
+    <div class="video-info-center" id="video-info-center">
         <div class="dir-name" id="main-dir-name">Dir.<br>André Chitas</div>
         <div class="brand-name" id="main-brand-name">Cobasi</div>
     </div>
@@ -91,6 +88,17 @@
             <span class="copyright">all rights reserved ©</span>
         </div>
     </footer>
+
+    <!-- PLAYER FULLSCREEN (MODAL) -->
+    <div id="video-modal" class="video-modal">
+        <button class="video-modal-close" id="video-modal-close" aria-label="Fechar vídeo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+            </svg>
+        </button>
+        <div class="video-modal-wrapper" id="video-modal-wrapper"></div>
+    </div>
 
     <!-- Scripts -->
     <script src="nav.js"></script>
