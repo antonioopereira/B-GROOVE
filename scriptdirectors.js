@@ -50,7 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1242961944", brand: "Memento Mori", title: "", director: "francisco-ramalho" },
         { id: "1242930562", brand: "Silly", title: "", director: "francisco-ramalho" },
         { id: "1242942830", brand: "Plutónio", title: "", director: "francisco-ramalho" },
-        { id: "1242946173", brand: "D-A-M-A", title: "", director: "francisco-ramalho" }
+        { id: "1242946173", brand: "D-A-M-A", title: "", director: "francisco-ramalho" },
+        { id: "1245274838", brand: "Plutónio", title: "", director: "francisco-ramalho" },
+        { id: "1245274001", brand: "Plutónio", title: "", director: "francisco-ramalho" } 
     ];
 
     // ==========================================

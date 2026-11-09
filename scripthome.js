@@ -42,7 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1229125856", brand: "Kasha feat. Mar", title: "Livro Aberto", director: "ines-monteiro" },
         { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro" },
         { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro" },
-        { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro" }
+        { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro" },
+        { id: "1242961944", brand: "Memento Mori", title: "", director: "francisco-ramalho" },
+        { id: "1242930562", brand: "Silly", title: "", director: "francisco-ramalho" },
+        { id: "1242942830", brand: "Plutónio", title: "", director: "francisco-ramalho" },
+        { id: "1242946173", brand: "D-A-M-A", title: "", director: "francisco-ramalho" },
+        { id: "1245274838", brand: "Plutónio", title: "", director: "francisco-ramalho" },
+        { id: "1245274001", brand: "Plutónio", title: "", director: "francisco-ramalho" },
     ];
 
     // ==========================================
