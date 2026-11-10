@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1064109149", brand: "GRANADA", title: "From the Heart", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-08.webp" },
         { id: "951206473",  brand: "CCXP", title: "Worlds", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-10.webp" },
         { id: "1075350120", brand: "GRANADA", title: "My Girl", director: "andre-chitas", Thumb: "images/andre-chitas/imagem-07.webp" },
-
         { id: "1220816532", brand: "FTP", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-13.webp" },
         { id: "1220821289", brand: "Profjam", title: "Dakar", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-14.webp" },
         { id: "1231972605", brand: "Realm", title: "Opo", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-a.webp" },
@@ -38,15 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "1220835706", brand: "SlowJ", title: "Where u @", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-18.webp" },
         { id: "1220831743", brand: "Project x", title: "Ghuettop", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-16.webp" },
         { id: "1231970990", brand: "Raissa", title: "Pensas em Mim", director: "goncalo-xz", Thumb: "images/goncalo-xz/imagem-c.webp" },
-
         { id: "1228567548", brand: "Mar", title: "Sem Carta", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-24.webp" },
         { id: "1229123992", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-20.webp" },
         { id: "1229125856", brand: "Kasha feat. Mar", title: "Livro Aberto", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-22.webp" },
         { id: "1229127014", brand: "Mar", title: "Graduada", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-21.webp" },
         { id: "1229127593", brand: "Mar", title: "Old Money", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-23.webp" },
         { id: "1229129641", brand: "Mar", title: "Atira-te a Mim", director: "ines-monteiro", Thumb: "images/ines-monteiro/imagem-19.webp" },
-        
-        // FRANCISCO RAMALHO
         { id: "1242961944", brand: "Memento Mori", title: "", director: "francisco-ramalho" },
         { id: "1242930562", brand: "Silly", title: "", director: "francisco-ramalho" },
         { id: "1242942830", brand: "Plutónio", title: "", director: "francisco-ramalho" },
@@ -79,6 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeIframe = null;
     let carouselAnimId = null;
     let currentVideoIndex = 0;
+
+    // ==========================================
+    // ESCONDER O BOTÃO INICIALMENTE
+    // ==========================================
+    if (backToMenuBtn) {
+        backToMenuBtn.classList.add("is-hidden");
+    }
 
     // ==========================================
     // VÍDEO DE FUNDO ALEATÓRIO (MENU)
@@ -140,6 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 directorView.classList.add("active");
                 
+                // Mostrar o botão Back to directors
+                if (backToMenuBtn) backToMenuBtn.classList.remove("is-hidden");
+
                 initCarousel();
                 updateMainVideo(0);
                 snapCarouselTo(0);
@@ -158,6 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 directorView.classList.remove("active");
                 directorView.style.opacity = 1; 
                 
+                // Esconder o botão Back to directors
+                if (backToMenuBtn) backToMenuBtn.classList.add("is-hidden");
+
                 if (activeIframe) {
                     activeIframe.remove();
                     activeIframe = null;
@@ -230,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // LÓGICA DO CARROSSEL
+    // LÓGICA DO CARROSSEL (FLUIDEZ E CAMINHO CURTO)
     // ==========================================
     let carouselCurrentScroll = 0;
     let carouselTargetScroll = 0;
@@ -242,9 +251,24 @@ document.addEventListener("DOMContentLoaded", () => {
     function snapCarouselTo(index) {
         const step = getCarouselStep();
         const n = carouselItems.length;
+        if (n === 0) return;
+
+        const totalLoop = n * step;
+        const currentScroll = carouselCurrentScroll;
         
-        const currentBase = Math.round(carouselCurrentScroll / (n * step)) * (n * step);
-        carouselTargetScroll = currentBase + (index * step);
+        const currentBase = Math.floor(currentScroll / totalLoop) * totalLoop;
+        const currentPosInLoop = currentScroll - currentBase;
+        
+        let targetPosInLoop = index * step;
+        let diff = targetPosInLoop - currentPosInLoop;
+        
+        if (diff > totalLoop / 2) {
+            diff -= totalLoop;
+        } else if (diff < -totalLoop / 2) {
+            diff += totalLoop;
+        }
+        
+        carouselTargetScroll = currentScroll + diff;
     }
 
     function initCarousel() {
@@ -268,7 +292,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             carouselItems.forEach((item, i) => {
                 let x = (i * step) - carouselCurrentScroll;
-                
                 x = ((x + T / 2) % T + T) % T - T / 2;
 
                 const absX = Math.abs(x);
@@ -278,13 +301,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.style.display = 'none'; 
                 } else {
                     item.style.display = 'block';
-                    
                     const scale = Math.max(0.7, 1 - (norm * 0.3)); 
                     const zIndex = Math.round(100 - norm * 10);
                     
                     item.style.transform = `translate(-50%, -50%) translateX(${x * 0.85}px) scale(${scale})`;
                     item.style.zIndex = zIndex;
-                    
                     item.style.opacity = Math.max(0.4, 1 - (norm * 0.6));
                 }
             });
@@ -293,20 +314,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         render();
-
-        carouselTrack.addEventListener("wheel", (e) => {
-            e.preventDefault();
-            carouselTargetScroll += e.deltaY * 1.5;
-            
-            clearTimeout(window._carouselTimeout);
-            window._carouselTimeout = setTimeout(() => {
-                const nearestIndex = Math.round(carouselTargetScroll / step);
-                carouselTargetScroll = nearestIndex * step;
-                
-                const realIndex = ((nearestIndex % n) + n) % n;
-                updateMainVideo(realIndex);
-            }, 150);
-        }, { passive: false });
     }
 
     // ==========================================
@@ -321,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // PLAYER FULLSCREEN (NOVO)
+    // PLAYER FULLSCREEN (MODAL)
     // ==========================================
     const videoModal = document.getElementById("video-modal");
     const videoModalWrapper = document.getElementById("video-modal-wrapper");

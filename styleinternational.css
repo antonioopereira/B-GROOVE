@@ -1,21 +1,14 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;500;600;700&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000; /* Fundo preto para combinar com o vídeo */
+    width: 100%; height: 100%; overflow: hidden;
+    background-color: #000;
     font-family: 'General Sans', sans-serif; 
-    color: #ffffff;
-    user-select: none;
-    overscroll-behavior: none;
+    color: #eae9dc;
+    user-select: none; overscroll-behavior: none;
 }
 
 /* ==========================================================================
@@ -23,32 +16,26 @@ html, body {
    ========================================================================== */
 .top-bar {
     position: fixed; top: 0; left: 0; width: 100%; padding: 30px 40px;
-    display: grid; 
-    grid-template-columns: 1fr auto 1fr; 
-    align-items: center; z-index: 99999;
-    pointer-events: none;
+    display: grid; grid-template-columns: 1fr auto 1fr; 
+    align-items: center; z-index: 99999; pointer-events: none;
 }
-
 .logo-toggle-btn, .about-link { pointer-events: auto; }
 
 .logo-toggle-btn { 
-    justify-self: center; 
-    background: transparent; border: none; padding: 0; cursor: pointer; 
-    transition: transform 0.3s ease; 
+    justify-self: center; background: transparent; border: none; padding: 0;
+    cursor: pointer; transition: transform 0.3s ease; 
 }
 .logo-toggle-btn:hover { transform: scale(1.05); }
 
+/* LOGO BEGE (Filtro CSS para #eae9dc) */
 .logo-toggle-btn img {
-    height: 35px; 
-    width: auto; 
-    display: block;
-    filter: brightness(0) invert(1);
+    height: 35px; width: auto; display: block;
+    filter: brightness(0) saturate(100%) invert(94%) sepia(10%) saturate(220%) hue-rotate(15deg) brightness(103%) contrast(87%);
 }
 
 .about-link { 
-    justify-self: end;
-    font-family: 'General Sans', sans-serif; 
-    color: #ffffff; text-decoration: none; 
+    justify-self: end; font-family: 'General Sans', sans-serif; 
+    color: #eae9dc; text-decoration: none; 
     font-size: 16px; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase;
     opacity: 0.8; transition: opacity 0.3s ease;
 }
@@ -57,18 +44,14 @@ html, body {
 /* ==========================================================================
    VÍDEO FULLSCREEN
    ========================================================================== */
-.menu-bg-video { 
-    position: fixed; inset: 0; z-index: 1; overflow: hidden; background: #000; pointer-events: none; 
-}
-.menu-bg-video iframe { 
-    width: 100%; height: 100%; border: 0; object-fit: cover; transform: scale(1.55); 
-}
+.menu-bg-video { position: fixed; inset: 0; z-index: 1; overflow: hidden; background: #000; pointer-events: none; }
+.menu-bg-video iframe { width: 100%; height: 100%; border: 0; object-fit: cover; transform: scale(1.55); }
 
 /* ==========================================================================
    SETAS DE NAVEGAÇÃO
    ========================================================================== */
 .nav-arrow { 
-    position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ffffff; 
+    position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: #eae9dc; 
     cursor: pointer; padding: 20px; z-index: 100; opacity: 0.7; transition: opacity 0.3s ease, transform 0.3s ease; 
 }
 .nav-arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.1); }
@@ -80,7 +63,7 @@ html, body {
    ========================================================================== */
 .side-callout { 
     position: fixed; top: 50%; transform: translateY(-50%); 
-    font-family: 'General Sans', sans-serif; font-size: 18px; color: #ffffff; 
+    font-family: 'General Sans', sans-serif; font-size: 18px; color: #eae9dc; 
     z-index: 10; pointer-events: none; 
 }
 .side-callout.left { left: 15vw; }
@@ -88,19 +71,15 @@ html, body {
 
 .video-info-center { 
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-    text-align: center; color: #ffffff; z-index: 10; display: flex; flex-direction: column; 
-    align-items: center; width: 90%; 
-    cursor: pointer; pointer-events: auto; 
+    text-align: center; color: #eae9dc; z-index: 10; display: flex; flex-direction: column; 
+    align-items: center; width: 90%; cursor: pointer; pointer-events: auto; 
 }
 
-/* Como a página International não tem diretor específico, mostramos apenas a marca grande */
 .video-info-center .brand-name { 
-    font-family: 'Harmattan', sans-serif; 
-    font-size: clamp(2.5rem, 5vw, 4rem); /* Tamanho reduzido (antes era 4rem, 8vw, 7rem) */
+    font-family: 'Harmattan', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); 
     font-weight: 700; line-height: 0.9; letter-spacing: -0.02em; 
     transition: opacity 0.3s ease;
 }
-
 .video-info-center:hover .brand-name { opacity: 0.7; }
 
 /* ==========================================================================
@@ -112,47 +91,28 @@ html, body {
     z-index: 100; pointer-events: none; 
 }
 .footer-left { display: flex; align-items: flex-end; gap: 15px; pointer-events: auto; }
-.footer-left .text { 
-    font-family: 'General Sans', sans-serif; font-size: 12px; line-height: 1.1; text-transform: lowercase; 
-    letter-spacing: 0.2px; margin-bottom: 2px; color: #ffffff; 
-}
-.red-line { width: 60px; height: 1.5px; background-color: #ffffff; margin-bottom: 10px; }
+.footer-left .text { font-family: 'General Sans', sans-serif; font-size: 12px; line-height: 1.1; text-transform: lowercase; letter-spacing: 0.2px; margin-bottom: 2px; color: #eae9dc; }
+.red-line { width: 60px; height: 1.5px; background-color: #eae9dc; margin-bottom: 10px; }
 .footer-right { pointer-events: auto; }
-.copyright { font-family: 'General Sans', sans-serif; font-size: 12px; opacity: 0.8; color: #ffffff; }
+.copyright { font-family: 'General Sans', sans-serif; font-size: 12px; opacity: 0.8; color: #eae9dc; }
 
 /* ==========================================================================
    PLAYER FULLSCREEN (MODAL)
    ========================================================================== */
-.video-click-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 5; 
-    cursor: pointer;
-}
+.video-click-overlay { position: fixed; inset: 0; z-index: 5; cursor: pointer; }
 
 .video-modal {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 999999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    position: fixed; inset: 0; background: #000; z-index: 999999;
+    display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s ease;
 }
-
-.video-modal.is-open {
-    display: flex;
-    opacity: 1;
-}
-
+.video-modal.is-open { display: flex; opacity: 1; }
 .video-modal-wrapper { width: 100%; height: 100%; }
 .video-modal-wrapper iframe { width: 100%; height: 100%; border: 0; }
 
 .video-modal-close {
     position: absolute; top: 30px; right: 40px;
-    background: transparent; border: none; color: #ffffff;
+    background: transparent; border: none; color: #eae9dc;
     cursor: pointer; z-index: 1000000; opacity: 0.7;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }

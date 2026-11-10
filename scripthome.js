@@ -52,17 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     // ==========================================
-    // NOVO: FUNÇÃO PARA BARALHAR OS VÍDEOS
+    // FUNÇÃO PARA BARALHAR OS VÍDEOS
     // ==========================================
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
+            [array[i], array[j]] = [array[j], array[i]]; 
         }
         return array;
     }
-
-    // Baralha a lista de vídeos antes de iniciar
     shuffleArray(videoData);
 
     // ==========================================
@@ -76,28 +74,86 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextBtn = document.getElementById("next-btn");
 
     let currentVideoIndex = 0;
+    let autoPlayTimer;
+    let isAnimating = false; // Bloqueia cliques duplos durante a animação
+
+    // Configura as transições CSS diretamente para garantir fluidez
+    menuBgVideo.style.transition = "opacity 0.5s ease";
+    mainDirName.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+    mainBrandName.style.transition = "opacity 0.5s ease, transform 0.5s ease";
 
     // ==========================================
-    // LÓGICA DE NAVEGAÇÃO DE VÍDEO (SLIDES)
+    // FUNÇÃO DO TEMPORIZADOR AUTOMÁTICO (5 SEGUNDOS)
+    // ==========================================
+    function startAutoPlay() {
+        clearInterval(autoPlayTimer); 
+        autoPlayTimer = setInterval(() => {
+            if (!isAnimating) {
+                updateHomeVideo(currentVideoIndex + 1);
+            }
+        }, 8000); 
+    }
+
+    // ==========================================
+    // LÓGICA DE NAVEGAÇÃO COM TRANSIÇÃO SEGURA
     // ==========================================
     function updateHomeVideo(index) {
+        if (isAnimating) return; 
+        isAnimating = true;
+
         if (index < 0) index = videoData.length - 1;
         if (index >= videoData.length) index = 0;
         
         currentVideoIndex = index;
         const video = videoData[index];
-
-        menuBgVideo.innerHTML = ""; 
-        const iframe = document.createElement("iframe");
-        iframe.src = `https://player.vimeo.com/video/${video.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
-        menuBgVideo.appendChild(iframe);
-
         const dirName = directorNames[video.director] || video.director;
-        
-        mainDirName.innerHTML = `Dir.<br>${dirName}`;
-        mainBrandName.innerText = video.brand;
+
+        // 1. Texto desliza para a esquerda e desaparece, vídeo faz fade out
+        mainDirName.style.opacity = "0";
+        mainBrandName.style.opacity = "0";
+        mainDirName.style.transform = "translateX(-50px)";
+        mainBrandName.style.transform = "translateX(-50px)";
+        menuBgVideo.style.opacity = "0";
+
+        // Espera a animação terminar para trocar o conteúdo
+        setTimeout(() => {
+            // 2. Troca o iframe do vídeo e os textos
+            menuBgVideo.innerHTML = ""; 
+            const iframe = document.createElement("iframe");
+            iframe.src = `https://player.vimeo.com/video/${video.id}?background=1&autoplay=1&loop=1&muted=1&api=1&controls=0`;
+            iframe.setAttribute("frameborder", "0");
+            iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+            menuBgVideo.appendChild(iframe);
+
+            mainDirName.innerHTML = `Dir.<br>${dirName}`;
+            mainBrandName.innerText = video.brand;
+
+            // 3. Prepara o novo texto para entrar do lado direito
+            mainDirName.style.transition = "none";
+            mainBrandName.style.transition = "none";
+            mainDirName.style.transform = "translateX(50px)";
+            mainBrandName.style.transform = "translateX(50px)";
+
+            // Força o navegador a registar a mudança de posição
+            void mainDirName.offsetWidth;
+
+            // 4. Traz o vídeo e o texto de volta (fade in e deslize)
+            menuBgVideo.style.transition = "opacity 0.6s ease";
+            mainDirName.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+            mainBrandName.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+
+            menuBgVideo.style.opacity = "1";
+            mainDirName.style.opacity = "1";
+            mainBrandName.style.opacity = "1";
+            mainDirName.style.transform = "translateX(0)";
+            mainBrandName.style.transform = "translateX(0)";
+
+            // 5. Liberta o bloqueio após a animação de entrada terminar
+            setTimeout(() => {
+                isAnimating = false;
+            }, 600);
+
+        }, 500); // Tempo igual à transição de saída
     }
 
     // ==========================================
@@ -105,10 +161,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     prevBtn.addEventListener("click", () => {
         updateHomeVideo(currentVideoIndex - 1);
+        startAutoPlay(); 
     });
 
     nextBtn.addEventListener("click", () => {
         updateHomeVideo(currentVideoIndex + 1);
+        startAutoPlay(); 
     });
 
     window.addEventListener("keydown", (e) => {
@@ -119,11 +177,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "ArrowRight") nextBtn.click();
     });
 
-    // Inicia a página com o primeiro vídeo (que já está aleatório)
+    // Inicia a página com o primeiro vídeo e liga o temporizador
     updateHomeVideo(0);
+    startAutoPlay(); 
 
     // ==========================================
-    // PLAYER FULLSCREEN (MODAL)
+    // PLAYER FULLSCREEN (MODAL) - INTACTO
     // ==========================================
     const videoModal = document.getElementById("video-modal");
     const videoModalWrapper = document.getElementById("video-modal-wrapper");
@@ -133,8 +192,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function openFullscreenVideo() {
         if (!videoData[currentVideoIndex]) return;
-        const videoId = videoData[currentVideoIndex].id;
         
+        clearInterval(autoPlayTimer); 
+        
+        const videoId = videoData[currentVideoIndex].id;
         videoModalWrapper.innerHTML = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&controls=1" allow="autoplay; fullscreen; picture-in-picture" frameborder="0" allowfullscreen></iframe>`;
         videoModal.classList.add("is-open");
     }
@@ -142,6 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function closeFullscreenVideo() {
         videoModalWrapper.innerHTML = ""; 
         videoModal.classList.remove("is-open");
+        
+        startAutoPlay(); 
     }
 
     videoClickOverlay.addEventListener("click", openFullscreenVideo);
