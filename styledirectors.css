@@ -1,5 +1,6 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -97,8 +98,8 @@ html, body {
 }
 
 .video-info-center .brand-name { 
-    font-family: 'Harmattan', sans-serif !important; font-size: clamp(3.5rem, 7vw, 6rem); 
-    font-weight: 700; line-height: 0.9; letter-spacing: -0.02em; 
+    font-family: 'Noto Sans', sans-serif !important; font-size: clamp(2.0rem, 5vw, 6rem); 
+    font-weight: 560; line-height: 0.9; 
     transition: opacity 0.3s ease;
 }
 
@@ -170,24 +171,3 @@ html, body {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* ==========================================================================
-   BOTÃO DE PLAY SUBTIL
-   ========================================================================== */
-.play-btn {
-    margin-top: 20px;
-    background: transparent;
-    border: none;
-    color: #eae9dc; /* Cor bege */
-    cursor: pointer;
-    opacity: 0.4; 
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: auto;
-}
-
-.play-btn:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}

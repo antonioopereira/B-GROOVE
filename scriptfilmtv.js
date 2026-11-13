@@ -1,32 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
-    // NAVEGAÇÃO
-    // ==========================================
-    const logoToggle = document.getElementById("logo-toggle");
-    const navOverlay = document.getElementById("nav-overlay");
-    const navClose = document.getElementById("nav-close");
-
-     logoToggle.addEventListener("click", () => {
-    if (navOverlay.classList.contains("is-open")) {
-        navOverlay.classList.remove("is-open");
-    } else {
-        navOverlay.classList.add("is-open");
-    }
-    });
-
-    navClose.addEventListener("click", () => {
-        navOverlay.classList.remove("is-open");
-    });
-
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            navOverlay.classList.remove("is-open");
-            closeModal();
-        }
-    });
-
-    // ==========================================
     // CONFIGURAÇÕES DO TÚNEL
     // ==========================================
     const config = {
@@ -40,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
     // DADOS DOS FILMES
-    // 👇 Substitui os "src" pelos teus posters reais
     // ==========================================
     const moviesData = [
         {
@@ -172,22 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         card.addEventListener("mouseenter", () => {
-            gsap.to(poster, {
-                hoverOffset: config.hoverPull,
-                duration: 0.5,
-                ease: "power2.out"
-            });
+            gsap.to(poster, { hoverOffset: config.hoverPull, duration: 0.5, ease: "power2.out" });
         });
 
         card.addEventListener("mouseleave", () => {
-            gsap.to(poster, {
-                hoverOffset: 0,
-                duration: 0.5,
-                ease: "power2.out"
-            });
+            gsap.to(poster, { hoverOffset: 0, duration: 0.5, ease: "power2.out" });
         });
 
-        // 👇 Clique → abre o modal com os dados deste filme
         card.addEventListener("click", () => {
             openModal(data);
         });
@@ -204,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalBackdrop = modal.querySelector("[data-close-modal]");
 
     function openModal(data) {
-        // Construir HTML do modal
         let html = `<h2 class="modal-title">${data.title}</h2>`;
         html += `<div class="modal-meta">${data.meta}</div>`;
         html += `<p class="modal-synopsis">${data.synopsis}</p>`;
@@ -212,12 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.info && data.info.length) {
             html += `<div class="modal-info">`;
             data.info.forEach(row => {
-                html += `
-                    <div class="modal-info-row">
-                        <span class="modal-info-label">${row.label}</span>
-                        <span class="modal-info-value">${row.value}</span>
-                    </div>
-                `;
+                html += `<div class="modal-info-row"><span class="modal-info-label">${row.label}</span><span class="modal-info-value">${row.value}</span></div>`;
             });
             html += `</div>`;
         }
@@ -231,13 +189,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         modalBody.innerHTML = html;
-
-        // Abrir modal
         modal.classList.add("is-open");
         modal.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
-
-        // Reset scroll do modal
         modal.querySelector(".modal-content").scrollTop = 0;
     }
 
@@ -250,6 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
     modalClose.addEventListener("click", closeModal);
     modalBackdrop.addEventListener("click", closeModal);
 
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+    });
+
     // ==========================================
     // SCROLL
     // ==========================================
@@ -257,7 +215,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentScroll = 0;
 
     window.addEventListener("wheel", (e) => {
-        // Não faz scroll do túnel se o modal estiver aberto
         if (modal.classList.contains("is-open")) return;
         if (e.target.closest(".nav-overlay")) return;
 
@@ -271,7 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("touchstart", (e) => {
         if (modal.classList.contains("is-open")) return;
-        if (e.target.closest(".logo-container, .nav-overlay, .site-footer")) return;
+        // Atualizado de .logo-container para .logo-toggle-btn
+        if (e.target.closest(".logo-toggle-btn, .nav-overlay, .site-footer")) return;
         touchStartX = e.touches[0].clientX;
         touchStartScroll = targetScroll;
     }, { passive: true });
@@ -283,14 +241,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
 
     // ==========================================
-    // LOOP DE ANIMAÇÃO — WRAP INFINITO
+    // LOOP DE ANIMAÇÃO
     // ==========================================
     function loop() {
         currentScroll += (targetScroll - currentScroll) * config.lerp;
 
         posters.forEach((p) => {
             let x = p.baseX + currentScroll;
-
             x = ((x + halfWidth) % totalWidth + totalWidth) % totalWidth - halfWidth;
 
             const distance = Math.abs(x);

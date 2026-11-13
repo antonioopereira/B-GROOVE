@@ -1,5 +1,7 @@
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
 
 * {
     margin: 0;
@@ -87,9 +89,9 @@ html, body {
 }
 
 .us-title {
-    font-family: 'Harmattan', sans-serif;
+    font-family: 'Noto Sans', sans-serif !important;
     font-size: clamp(4rem, 10vw, 10rem);
-    font-weight: 700;
+    font-weight: 560;
     line-height: 0.9;
     letter-spacing: -0.03em;
     color: #bb0000;
